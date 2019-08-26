@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.software.eCommerce.dao;
+package com.software.eCommerce.services;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import com.software.eCommerce.services.RepositoryMaintenance;
  *
  */
 
-public class Repository implements RepositoryMaintenance {
+public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 	private Map<String, List<Books> > allProducts;
 
 	public void addProduct(Product product, String productCategory) {
