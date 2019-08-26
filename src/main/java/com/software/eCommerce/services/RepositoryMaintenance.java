@@ -10,5 +10,5 @@ package com.software.eCommerce.services;
 public interface RepositoryMaintenance {
 	void addProduct(Product product, String productCategory);
 	void searchProduct(String productName);
-
+	
 }
