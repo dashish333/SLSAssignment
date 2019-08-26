@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.software.eCommerce.datamodel.Books;
 import com.software.eCommerce.services.Product;
 import com.software.eCommerce.services.RepositoryMaintenance;
 
@@ -16,26 +17,40 @@ import com.software.eCommerce.services.RepositoryMaintenance;
  */
 
 public class Repository implements RepositoryMaintenance {
-	private Map<String, List<Product> > allProducts;
+	private Map<String, List<Books> > allProducts;
 
 	public void addProduct(Product product, String productCategory) {
 		if(allProducts.containsKey(productCategory)) {
-			List<Product> inventoryUpdateOfThisCategory = allProducts.get(productCategory);
-			inventoryUpdateOfThisCategory.add(product);
+			List<Books> inventoryUpdateOfThisCategory = allProducts.get(productCategory);
+			inventoryUpdateOfThisCategory.add((Books) product);
 			allProducts.replace(productCategory, inventoryUpdateOfThisCategory);
 		}
 		else
 		{
-			List<Product> inventoryUpdateOfThisCategory = new ArrayList<Product>();
-			inventoryUpdateOfThisCategory.add(product);
+			List<Books> inventoryUpdateOfThisCategory = new ArrayList<Books>();
+			inventoryUpdateOfThisCategory.add((Books) product);
 			allProducts.put(productCategory, inventoryUpdateOfThisCategory);
 		}
 
 	}
-
-	public void searchProduct(String productName) {
+	public boolean searchProduct(String itemName,String productCategory, Map<String,List<Product>> allProducts) {
+		if(allProducts.containsKey(productCategory))
+		{
+			List<Product> items = allProducts.get(productCategory);
+			for(Product item : items)
+			{
+				// go through each item and check for the  if item exist
+			}
+			
+			
+		}
+		return false;
 		
+		
+	}
 
+	public Map<String, List<Product>> getAllProducts() {
+		return allProducts;
 	}
 
 }

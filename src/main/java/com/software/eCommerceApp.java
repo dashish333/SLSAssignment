@@ -17,9 +17,15 @@ public class eCommerceApp
 	
     public static void main( String[] args )
     {
+    	repository = new Repository();
+    	
         
     }
     private static void addItemForCategory() {
     	// for loop for adding items
+    	for (int i = 0;i < ITEMS_PER_CATEGORY;i++)
+    	{
+    		
+    	}
     }
 }

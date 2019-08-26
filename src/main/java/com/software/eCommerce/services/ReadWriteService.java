@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 
 public class ReadWriteService implements ReadWrite {
 	
-	private static final String filepath = "/home/ashish/eclipse-workspaces/assignment/books.txt";
+	private static final String FILE_PATH = "/home/ashish/eclipse-workspaces/assignment/books.txt";
 	
 	public void fileReader(String filepath) 
 	{
