@@ -23,9 +23,10 @@ public class eCommerceApp
     	
         System.out.println("!!Welcome!!");
         System.out.println("Choose correspoding number for your choice");
-        System.out.println("1. Search for Book");
-        System.out.println("2. Buy a Book");
-        System.out.println("3: List all the books available");
+        System.out.println("1: Search for Book");
+        System.out.println("2: List all the books available");
+        System.out.println("3: Buy a Book");
+        
         int choice = input.nextInt();
         switch(choice){
         case 1: // make function call to search for book
@@ -33,6 +34,8 @@ public class eCommerceApp
         case 2: // purchase order
         		break;
         case 3: // print all the details of books available
+        		break;
+         default: System.out.println("Invalid choice");	
         }
     }
     private static void addItemForCategory() {
