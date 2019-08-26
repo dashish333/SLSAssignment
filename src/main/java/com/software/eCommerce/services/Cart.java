@@ -7,10 +7,10 @@ package com.software.eCommerce.services;
  * @author ashish
  *
  */
-public interface PurchaseOrder {
+public interface Cart {
 	
 	void addItemToCart(Product product);
-	void viewOrder(Order order);
+	void viewCart();
 	
 	
 

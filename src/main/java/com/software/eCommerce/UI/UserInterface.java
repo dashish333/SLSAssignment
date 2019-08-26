@@ -10,5 +10,9 @@ package com.software.eCommerce.UI;
 public interface UserInterface {
 	
 	void userInstructions();
-	int getUserInput();
+	int getIntInput();
+	String getStringInput();
+	void displayWelcomeInformation();
+	void printItem(String itemName,String additionalDetail ,int price);
+	int selectItems();
 }

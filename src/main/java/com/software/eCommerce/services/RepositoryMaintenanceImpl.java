@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.software.eCommerce.UI.BasicUserInterface;
 import com.software.eCommerce.datamodel.Book;
 import com.software.eCommerce.services.Product;
 import com.software.eCommerce.services.RepositoryMaintenance;
@@ -33,22 +34,52 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		}
 
 	}
-	public boolean searchProduct(Category category,String itemName, Map<String,List<Product>> allProducts) {
+	public void searchProduct(Category category,String itemName) {
+		System.out.println("Searching.....");
 		if(allProducts.containsKey(category.name()))
 		{
-			
-			List<Product> items = allProducts.get(category.name());
-			//for(Book item : items)
-			{
-				
+			int matches = 0;
+			List<Book> items = allProducts.get(category.name());
+			BasicUserInterface bui = new BasicUserInterface();
+			for (Product item : items) {
+				if(((Book)item).getTitle() == itemName)
+				{
+					bui.printItem(itemName, ((Book)item).getAuthor(), 
+							((Book)item).getPrice());
+					matches++;
+				}
+				System.out.printf("Total Items Matching Your Search = {}",matches);
 			}
 		}
-		return false;
+		else
+		{
+			System.out.println("No match found. Try Again!");
+		}
+	
 	}
 
 	public Map<String, List<Book>> getAllProducts() {
 		
 		return allProducts;
+	}
+	public void printAllProducts() {
+		List<Book>itemsInCategory = allProducts.get(Category.BOOK.name());
+		BasicUserInterface bui = new BasicUserInterface();
+		System.out.println("Displaying All Items.....");
+		for (Book item : itemsInCategory) {
+			bui.printItem(item.getTitle(),item.getAuthor(),item.getPrice());
+		}
+	}
+	public Product getProduct(Category category, String itemName) {
+			List<Book> items = allProducts.get(category.name());
+			for (Product item : items) {
+				if(((Book)item).getTitle() == itemName)
+				{
+					return item;
+				}
+			}
+			System.out.println("Cannot Find the Product You Looking For!");
+		return null;
 	}
 
 }

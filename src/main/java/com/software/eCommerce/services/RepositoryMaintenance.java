@@ -6,12 +6,17 @@ package com.software.eCommerce.services;
 import java.util.List;
 import java.util.Map;
 
+import com.software.eCommerce.datamodel.Book;
+
 /**
  * @author ashish
  *
  */
 public interface RepositoryMaintenance {
 	void addProduct(Product product, String productCategory);
-	boolean searchProduct(Category category,String itemName,Map<String,List<Product>> allProducts);
+	void searchProduct(Category category,String itemName);
+	Map<String, List<Book>> getAllProducts();
+	Product getProduct(Category category, String itemName);
+	void printAllProducts();
 	
 }
