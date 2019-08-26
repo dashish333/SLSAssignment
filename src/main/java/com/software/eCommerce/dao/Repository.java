@@ -45,11 +45,9 @@ public class Repository implements RepositoryMaintenance {
 			
 		}
 		return false;
-		
-		
 	}
 
-	public Map<String, List<Product>> getAllProducts() {
+	public Map<String, List<Books>> getAllProducts() {
 		return allProducts;
 	}
 

@@ -17,7 +17,6 @@ public class ReadWriteService implements ReadWrite {
 	try {
 		fileInputStream = new FileInputStream("/home/ashish/eclipse-workspaces/assignment/books.txt");
 	} catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
 	DataInputStream datainputStream = new DataInputStream(fileInputStream);
@@ -27,7 +26,7 @@ public class ReadWriteService implements ReadWrite {
 		while ((strLine = bufferedReader.readLine()) != null)   
 		{
 				String[] tokens = strLine.split(" ");
-
+				// map the product
 		}
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
