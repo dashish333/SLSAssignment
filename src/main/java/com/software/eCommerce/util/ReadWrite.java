@@ -9,6 +9,6 @@ package com.software.eCommerce.util;
  */
 public interface ReadWrite {
 	
-	void fileReader(String filepath);
+	void fileReader();
 
 }

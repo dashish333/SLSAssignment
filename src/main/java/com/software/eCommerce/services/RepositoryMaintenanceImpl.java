@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.software.eCommerce.datamodel.Books;
+import com.software.eCommerce.datamodel.Book;
 import com.software.eCommerce.services.Product;
 import com.software.eCommerce.services.RepositoryMaintenance;
 
@@ -17,18 +17,18 @@ import com.software.eCommerce.services.RepositoryMaintenance;
  */
 
 public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
-	private Map<String, List<Books> > allProducts;
+	private Map<String, List<Book> > allProducts;
 
 	public void addProduct(Product product, String productCategory) {
 		if(allProducts.containsKey(productCategory)) {
-			List<Books> inventoryUpdateOfThisCategory = allProducts.get(productCategory);
-			inventoryUpdateOfThisCategory.add((Books) product);
+			List<Book> inventoryUpdateOfThisCategory = allProducts.get(productCategory);
+			inventoryUpdateOfThisCategory.add((Book) product);
 			allProducts.replace(productCategory, inventoryUpdateOfThisCategory);
 		}
 		else
 		{
-			List<Books> inventoryUpdateOfThisCategory = new ArrayList<Books>();
-			inventoryUpdateOfThisCategory.add((Books) product);
+			List<Book> inventoryUpdateOfThisCategory = new ArrayList<Book>();
+			inventoryUpdateOfThisCategory.add((Book) product);
 			allProducts.put(productCategory, inventoryUpdateOfThisCategory);
 		}
 
@@ -47,7 +47,8 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		return false;
 	}
 
-	public Map<String, List<Books>> getAllProducts() {
+	public Map<String, List<Book>> getAllProducts() {
+		
 		return allProducts;
 	}
 

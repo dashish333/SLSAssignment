@@ -9,21 +9,22 @@ import java.io.InputStreamReader;
 
 import com.software.eCommerce.util.ReadWrite;
 
-public class ReadWriteService implements ReadWrite {
+public class ReadWriteImpl implements ReadWrite {
 	
-	private static final String FILE_PATH = "/home/ashish/eclipse-workspaces/assignment/books.txt";
+	private static final String BOOK_FILE_PATH = "/home/ashish/eclipse-workspaces/assignment/books.txt";
 	
-	public void fileReader(String filepath) 
+	public void fileReader() 
 	{
-	FileInputStream fileInputStream=null;
+	FileInputStream fileInputStream = null;
 	try {
-		fileInputStream = new FileInputStream("/home/ashish/eclipse-workspaces/assignment/books.txt");
+		fileInputStream = new FileInputStream(BOOK_FILE_PATH);
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
 	}
 	DataInputStream datainputStream = new DataInputStream(fileInputStream);
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(datainputStream));
     String strLine;
+    
     try {
 		while ((strLine = bufferedReader.readLine()) != null)   
 		{
@@ -35,4 +36,5 @@ public class ReadWriteService implements ReadWrite {
 		e.printStackTrace();
 	}
  }
+	
 }

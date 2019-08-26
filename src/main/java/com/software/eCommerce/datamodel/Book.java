@@ -10,7 +10,7 @@ import com.software.eCommerce.services.Product;
  * @author ashish
  *
  */
-public class Books implements Product {
+public class Book implements Product {
 	
 	private final  String title;
 	private final  String author;
@@ -20,7 +20,7 @@ public class Books implements Product {
 	private final  String bindingType;
 	private final int year;
 	private final int price;
-	public Books(String title, String author, String isbn, String publisher, String language, String bindingType,
+	public Book(String title, String author, String isbn, String publisher, String language, String bindingType,
 			int year, int price) {
 		this.title = title;
 		this.author = author;
