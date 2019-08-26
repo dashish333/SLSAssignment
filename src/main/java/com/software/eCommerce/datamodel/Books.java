@@ -3,6 +3,7 @@
  */
 package com.software.eCommerce.datamodel;
 
+import com.software.eCommerce.services.Category;
 import com.software.eCommerce.services.Product;
 
 /**
@@ -11,14 +12,14 @@ import com.software.eCommerce.services.Product;
  */
 public class Books implements Product {
 	
-	private  String title;
-	private  String author;
-	private  String isbn;
-	private  String publisher;
-	private  String language;
-	private  String bindingType;
-	private int year;
-	private int price;
+	private final  String title;
+	private final  String author;
+	private final  String isbn;
+	private final  String publisher;
+	private final  String language;
+	private final  String bindingType;
+	private final int year;
+	private final int price;
 	public Books(String title, String author, String isbn, String publisher, String language, String bindingType,
 			int year, int price) {
 		this.title = title;
@@ -54,6 +55,11 @@ public class Books implements Product {
 	}
 	public int getPrice() {
 		return price;
+	}
+
+	public Category getProductCategory() {
+		
+		return Category.BOOK;
 	}
 	
 	
