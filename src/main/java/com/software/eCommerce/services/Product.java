@@ -10,5 +10,6 @@ package com.software.eCommerce.services;
 public interface Product {
 	
 	Category getProductCategory();
+	
 
 }

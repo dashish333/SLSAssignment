@@ -12,6 +12,6 @@ import java.util.Map;
  */
 public interface RepositoryMaintenance {
 	void addProduct(Product product, String productCategory);
-	boolean searchProduct(String productCategory,String itemName,Map<String,List<Product>> allProducts);
+	boolean searchProduct(Category category,String itemName,Map<String,List<Product>> allProducts);
 	
 }

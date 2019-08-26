@@ -33,16 +33,15 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		}
 
 	}
-	public boolean searchProduct(String itemName,String productCategory, Map<String,List<Product>> allProducts) {
-		if(allProducts.containsKey(productCategory))
+	public boolean searchProduct(Category category,String itemName, Map<String,List<Product>> allProducts) {
+		if(allProducts.containsKey(category.name()))
 		{
-			List<Product> items = allProducts.get(productCategory);
-			for(Product item : items)
+			
+			List<Product> items = allProducts.get(category.name());
+			//for(Book item : items)
 			{
-				// go through each item and check for the  if item exist
+				
 			}
-			
-			
 		}
 		return false;
 	}
