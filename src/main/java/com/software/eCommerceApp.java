@@ -32,6 +32,8 @@ public class eCommerceApp
     	switch(bui.selectItems()){
         case 1: String itemName = bui.getStringInput();
         		repository.searchProduct(Category.BOOK, itemName);
+        		System.out.println("A faster Search");
+        		
         		break;
         case 2: repository.getAllProducts();
         		break;
