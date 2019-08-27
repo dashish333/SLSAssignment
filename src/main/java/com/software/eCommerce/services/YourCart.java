@@ -1,5 +1,6 @@
 package com.software.eCommerce.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.software.eCommerce.UI.BasicUserInterface;
@@ -8,21 +9,20 @@ import com.software.eCommerce.datamodel.Book;
 
 public class YourCart implements Cart {
 
-	private List<Book> itemsInCart;
-	private static UserInterface userInterface= null;
+	private  List<Book> itemsInCart = null;
+	private static final UserInterface userInterface = new BasicUserInterface();
 	
-	public void addItemToCart(Product product) {
-		itemsInCart.add((Book) product);
+	public void addItemToCart(List<Book> books) {
+		itemsInCart = new ArrayList<Book>(books);
 	}
 
 	public void viewCart() {
-		userInterface = new BasicUserInterface();
+		
 		userInterface.displayWelcomeInformation();
 		
 		List<Book> itemsInCart = getCart();
 		for (Book item : itemsInCart) {
-			
-			userInterface.printItem(item.getTitle(),item.getAuthor(), item.getPrice());
+			userInterface.printItem(item.getProductCategory(),item.getTitle(),item.getAuthor(), item.getPrice());
 		}
 	}
 	
@@ -30,10 +30,4 @@ public class YourCart implements Cart {
 		return itemsInCart;
 		
 	}
-	
-
-	
-
-	
-
 }

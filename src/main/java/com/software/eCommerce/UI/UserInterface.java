@@ -3,6 +3,8 @@
  */
 package com.software.eCommerce.UI;
 
+import com.software.eCommerce.services.Category;
+
 /**
  * @author ashish
  *
@@ -13,6 +15,6 @@ public interface UserInterface {
 	int getIntInput();
 	String getStringInput();
 	void displayWelcomeInformation();
-	void printItem(String itemName,String additionalDetail ,int price);
+	void printItem(Category category, String itemName,String additionalDetail ,int price);
 	int selectItems();
 }

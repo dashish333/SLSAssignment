@@ -16,7 +16,7 @@ public interface RepositoryMaintenance {
 	void addProduct(Product product, String productCategory);
 	void searchProduct(Category category,String itemName);
 	Map<String, List<Book>> getAllProducts();
-	Product getProduct(Category category, String itemName);
+	List<Book> getProduct(Category category, String itemName);
 	void printAllProducts();
 	
 }

@@ -2,8 +2,12 @@ package com.software;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import org.junit.Test;
 
 import com.software.eCommerce.UI.BasicUserInterface;
 import com.software.eCommerce.datamodel.Book;
@@ -21,6 +25,7 @@ import com.software.eCommerce.util.FileLoad;
  *
  */
 
+
 public class eCommerceApp 
 {
 	private static final RepositoryMaintenance repository = new RepositoryMaintenanceImpl();
@@ -29,20 +34,26 @@ public class eCommerceApp
     {
     	addItemForCategory();
     	BasicUserInterface bui = new BasicUserInterface();
+    	
     	switch(bui.selectItems()){
-        case 1: String itemName = bui.getStringInput();
+    	
+        case 1: System.out.println("Searching for Book - ");
+        		String itemName = bui.getStringInput();
         		repository.searchProduct(Category.BOOK, itemName);
         		System.out.println("A faster Search");
+        		break;
         		
+        case 2: System.out.println("Listing All Books");
+        		repository.printAllProducts();
         		break;
-        case 2: repository.getAllProducts();
-        		break;
+        		
         case 3: System.out.println("Enter book title to buy: "); 
         		String buyItemTitled = bui.getStringInput();
-        		Product product = repository.getProduct(Category.BOOK, buyItemTitled);
-        		yourCart.addItemToCart(product);
+        		List<Book> books = repository.getProduct(Category.BOOK, buyItemTitled); 
+        		yourCart.addItemToCart(books);
+        		
+        case 4: yourCart.viewCart();
         		break;
-        case 4: yourCart.viewCart();	
         default: System.out.println("Invalid choice");	
         }
     }
@@ -51,9 +62,11 @@ public class eCommerceApp
     	FileLoad fileLoader = new FileLoad();
     	List<String[]> records = fileLoader.loadFile();
     	for (int i=0;i<records.size();i++)
-    	{Product product = new Book(records.get(i)[0], records.get(i)[1], records.get(i)[2], records.get(i)[3], 
-    			records.get(i)[4], records.get(i)[5], Integer.parseInt(records.get(i)[6]), 
-    			Integer.parseInt(records.get(i)[7]));
+    		
+    	{System.out.printf("%s %s\n",records.get(i)[6],records.get(i)[7]);
+    		Product product = new Book(records.get(i)[0], records.get(i)[1], records.get(i)[2], records.get(i)[3], 
+    			records.get(i)[4], records.get(i)[5],
+    			Integer.parseInt(records.get(i)[6]), Integer.parseInt(records.get(i)[7]));
     	repository.addProduct(product, Category.BOOK.name());
     	}
     	

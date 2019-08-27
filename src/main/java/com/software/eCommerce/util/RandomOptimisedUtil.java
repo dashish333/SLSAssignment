@@ -10,7 +10,7 @@ import com.software.eCommerce.services.SearchBookOn;
 
 public interface RandomOptimisedUtil {
 	
-	void speedSearch(Category categoryName, SearchBookOn searchBy, OrderBy orderBy,Map <String, List<Book>> allProdcuts);
+	List<String> speedSearch(String itemName, Category categoryName, SearchBookOn searchBy, OrderBy orderBy,Map <String, List<Book>> allProdcuts);
 
 			
 }

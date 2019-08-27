@@ -2,6 +2,8 @@ package com.software.eCommerce.UI;
 
 import java.util.Scanner;
 
+import com.software.eCommerce.services.Category;
+
 public class BasicUserInterface implements UserInterface {
 	
 	private static final Scanner input = new Scanner(System.in);
@@ -18,27 +20,30 @@ public class BasicUserInterface implements UserInterface {
 
 	public int getIntInput() {
 		System.out.println("\n Enter Choice ");
-		return input.nextInt();
+		int userInput =  input.nextInt();
+		input.nextLine();
+		return userInput;
 	}
 
 	public void displayWelcomeInformation() {
 		System.out.println("Welcome: This is your Cart \n");
-		System.out.println("Item \t AdditionalInfo  \t\t\t : \t\t\t price \n");
+		System.out.println("Type Of Product \t|\t Item \t|\t ProductDetail  \t| \t price \n");
 		
 	}
-	public void printItem(String itemName,String additionalDetail ,int price) {
-		System.out.printf("{} \t Authored by-{} \t\t\t :\t\t\t cost = {}\n",itemName,additionalDetail,price);
+	public void printItem(Category category, String itemName,String additionalDetail ,int price) {
+		System.out.printf("ProductCategory-{%s} | ItemName-{%s} | Authored by-{%s} | price($) - {%d}\n",category.BOOK.name(),itemName,additionalDetail,price);
 	}
 	
 	public int selectItems() {
 		int choice;
 		System.out.println("Choose from below menu - \n");
 		userInstructions();
-		choice = getIntInput();
+		choice = getIntInput();		
 		return choice;
 	}
 	
 	public String getStringInput() {
-		return input.nextLine();
+		String itemName =  input.nextLine();
+		return itemName;
 	}	
 }

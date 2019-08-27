@@ -4,6 +4,7 @@
 package com.software.eCommerce.services;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +19,11 @@ import com.software.eCommerce.services.RepositoryMaintenance;
  */
 
 public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
-	private Map<String, List<Book> > allProducts;
-
+	private Map<String, List<Book> > allProducts = new HashMap<String, List<Book>>();
+	
 	public void addProduct(Product product, String productCategory) {
+		System.out.println(((Book) product).getAuthor());
+		System.out.println(productCategory);
 		if(allProducts.containsKey(productCategory)) {
 			List<Book> inventoryUpdateOfThisCategory = allProducts.get(productCategory);
 			inventoryUpdateOfThisCategory.add((Book) product);
@@ -35,21 +38,21 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 
 	}
 	public void searchProduct(Category category,String itemName) {
-		System.out.println("Searching.....");
+		System.out.println("Searching....."+itemName);
 		if(allProducts.containsKey(category.name()))
 		{
 			int matches = 0;
 			List<Book> items = allProducts.get(category.name());
 			BasicUserInterface bui = new BasicUserInterface();
 			for (Product item : items) {
-				if(((Book)item).getTitle() == itemName)
+				if((((Book)item).getTitle()).equals(itemName))
 				{
-					bui.printItem(itemName, ((Book)item).getAuthor(), 
+					bui.printItem(((Book)item).getProductCategory(),itemName, ((Book)item).getAuthor(), 
 							((Book)item).getPrice());
 					matches++;
 				}
-				System.out.printf("Total Items Matching Your Search = {}",matches);
 			}
+			System.out.printf("Total Items Matching Your Search = {%d}",matches);
 		}
 		else
 		{
@@ -59,7 +62,6 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 	}
 
 	public Map<String, List<Book>> getAllProducts() {
-		
 		return allProducts;
 	}
 	public void printAllProducts() {
@@ -67,19 +69,23 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		BasicUserInterface bui = new BasicUserInterface();
 		System.out.println("Displaying All Items.....");
 		for (Book item : itemsInCategory) {
-			bui.printItem(item.getTitle(),item.getAuthor(),item.getPrice());
+			bui.printItem(item.getProductCategory(),item.getTitle(),item.getAuthor(),item.getPrice());
 		}
 	}
-	public Product getProduct(Category category, String itemName) {
+	public List<Book> getProduct(Category category, String itemName) {
 			List<Book> items = allProducts.get(category.name());
-			for (Product item : items) {
-				if(((Book)item).getTitle() == itemName)
+			List<Book>matchedBook = new ArrayList<Book>();
+			for (Book item : items) {
+				if(item.getTitle().equals(itemName))
 				{
-					return item;
+					matchedBook.add(item);
 				}
 			}
-			System.out.println("Cannot Find the Product You Looking For!");
-		return null;
+			
+		if (matchedBook.size()==0) {
+			System.out.println("Can't find the product you looking for");
+		}
+		return matchedBook;
 	}
 
 }

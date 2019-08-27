@@ -12,7 +12,6 @@ public class FileReaderImpl implements FileReader {
 	
 	public BufferedReader fileReader(String filepath) 
 	{
-	String[] tokens=null;
 	FileInputStream fileInputStream = null;
 	try {
 		fileInputStream = new FileInputStream(filepath);
