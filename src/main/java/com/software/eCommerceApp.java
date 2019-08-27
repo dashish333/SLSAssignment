@@ -19,6 +19,7 @@ import com.software.eCommerce.services.RandomOptimisedUtilImpl;
 import com.software.eCommerce.services.RepositoryMaintenance;
 import com.software.eCommerce.services.RepositoryMaintenanceImpl;
 import com.software.eCommerce.services.SearchBookOn;
+import com.software.eCommerce.services.TimeTrackingUtilImpl;
 import com.software.eCommerce.services.YourCart;
 import com.software.eCommerce.util.FileLoad;
 
@@ -32,6 +33,7 @@ public class eCommerceApp
 {
 	private static final RepositoryMaintenance repository = new RepositoryMaintenanceImpl();
 	private static final Cart yourCart = new YourCart();
+	private static final  TimeTrackingUtilImpl timeTracker = new TimeTrackingUtilImpl();
     public static void main( String[] args )
     {
     	addItemForCategory();
@@ -39,14 +41,21 @@ public class eCommerceApp
     	
     	switch(bui.selectItems()){
     	
-        case 1: System.out.println("Searching for Book - ");
+        case 1: 
+        		System.out.println("Searching for Book - ");
         		String itemName = bui.getStringInput();
+        		long begin = timeTracker.startTime();
         		repository.searchProduct(Category.BOOK, itemName);
+        		long end = timeTracker.endTime();
+        		System.out.println("\n Time in Search Taken = "+(end - begin));
         		
         		System.out.println("\n\nFaster Search");
         		int sortByKey = bui.optimiseSearch();
         		RandomOptimisedUtilImpl optimisedSearch = new RandomOptimisedUtilImpl();
+        		begin = timeTracker.startTime();
         		optimisedSearch.searchForItem(sortByKey, repository.getAllProducts());
+        		end = timeTracker.endTime();
+        		System.out.println("Search Taken = "+(end - begin));
         		break;
         		
         case 2: System.out.println("Listing All Books");
