@@ -45,8 +45,8 @@ public class eCommerceApp
         		
         		System.out.println("\n\nFaster Search");
         		int sortByKey = bui.optimiseSearch();
-        		
-        		
+        		RandomOptimisedUtilImpl optimisedSearch = new RandomOptimisedUtilImpl();
+        		optimisedSearch.searchForItem(sortByKey, repository.getAllProducts());
         		break;
         		
         case 2: System.out.println("Listing All Books");
@@ -57,8 +57,7 @@ public class eCommerceApp
         		String buyItemTitled = bui.getStringInput();
         		List<Book> books = repository.getProduct(Category.BOOK, buyItemTitled); 
         		yourCart.addItemToCart(books);
-        		
-        		
+   
         		// RandomOptimisedUtilImpl optimisedSearch = new RandomOptimisedUtilImpl();
         		// Book book = books.get(0);
         		

@@ -1,11 +1,3 @@
-978-1-891830-75-4, 110 Per¢, Tony Consiglio, $12.95
-978-1-60309-050-6, The 120 Days of Simon, Simon, $14.95
-978-1-891830-71-6, AEIOU or Any Easy Intimacy, Jeffrey Brown, $12.00
-978-1-60309-025-4, Alec: The Years Have Pants, , $35.00
-978-1-60309-047-6, Alec: The Years Have Pants, , $49.95
-978-1-60309-322-4, Alone Forever, ,$9.95
-978-1-891830-85-3, American Elf, , $19.95
-978-1-60309-016-2, American Elf, , $19.95
-978-1-60309-265-4, American Elf, , $24.95
-978-1-60309-077-3, Any Empire, , $19.95
-, In Search of Lost Time,Marcel Proust,1913, 
+The 120 Days of Simon,Simon,978-1-60309-050-6,XYZ,English,PaperBack,1998,14
+The 121 Days of Simon,Simon,978-1-60309-050-7,ABC,Persian,HardBinding,2003,18
+The 122 Days of Simon,Simon,978-1-60309-050-8,EFG,Mandarin,Digital,2005,13
