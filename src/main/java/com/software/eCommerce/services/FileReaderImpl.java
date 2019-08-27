@@ -10,14 +10,12 @@ import java.io.InputStreamReader;
 import com.software.eCommerce.util.FileReader;
 public class FileReaderImpl implements FileReader {
 	
-	private static final String BOOK_FILE_PATH = "books.txt";
-	
-	public BufferedReader fileReader() 
+	public BufferedReader fileReader(String filepath) 
 	{
 	String[] tokens=null;
 	FileInputStream fileInputStream = null;
 	try {
-		fileInputStream = new FileInputStream(BOOK_FILE_PATH);
+		fileInputStream = new FileInputStream(filepath);
 	} catch (FileNotFoundException e) {
 		e.printStackTrace();
 	}

@@ -2,6 +2,7 @@ package com.software;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.List;
 import java.util.Scanner;
 
 import com.software.eCommerce.UI.BasicUserInterface;
@@ -13,6 +14,7 @@ import com.software.eCommerce.services.Product;
 import com.software.eCommerce.services.RepositoryMaintenance;
 import com.software.eCommerce.services.RepositoryMaintenanceImpl;
 import com.software.eCommerce.services.YourCart;
+import com.software.eCommerce.util.FileLoad;
 
 /**
  * Hello world!
@@ -21,8 +23,6 @@ import com.software.eCommerce.services.YourCart;
 
 public class eCommerceApp 
 {
-	private static final int ITEMS_PER_CATEGORY=20;
-	private static Product product = null;
 	private static final RepositoryMaintenance repository = new RepositoryMaintenanceImpl();
 	private static final Cart yourCart = new YourCart();
     public static void main( String[] args )
@@ -46,19 +46,13 @@ public class eCommerceApp
     }
     private static void addItemForCategory() {
     	String rowRecord;
-    	BufferedReader reader = new FileReaderImpl().fileReader();
-    	try {
-    		while ((rowRecord = reader.readLine()) != null)   
-    		{
-    				String[] tokens = rowRecord.split(",");
-    				Product product = new Book(tokens[0], tokens[1], tokens[2], tokens[3], 
-    						tokens[4], tokens[5], Integer.parseInt(tokens[6]), Integer.parseInt(tokens[7]));
-    				repository.addProduct(product, Category.BOOK.name());
-    				
-    		}
-    		reader.close();
-    	} catch (IOException e) {
-    		e.printStackTrace();
+    	FileLoad fileLoader = new FileLoad();
+    	List<String[]> records = fileLoader.loadFile();
+    	for (int i=0;i<records.size();i++)
+    	{Product product = new Book(records.get(i)[0], records.get(i)[1], records.get(i)[2], records.get(i)[3], 
+    			records.get(i)[4], records.get(i)[5], Integer.parseInt(records.get(i)[6]), 
+    			Integer.parseInt(records.get(i)[7]));
+    	repository.addProduct(product, Category.BOOK.name());
     	}
     	
     }

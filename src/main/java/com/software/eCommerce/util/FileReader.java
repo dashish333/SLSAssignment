@@ -11,6 +11,6 @@ import java.io.BufferedReader;
  */
 public interface FileReader {
 	
-	BufferedReader fileReader();
+	BufferedReader fileReader(String filepath);
 
 }
