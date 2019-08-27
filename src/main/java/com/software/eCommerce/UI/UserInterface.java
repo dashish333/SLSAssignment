@@ -17,4 +17,5 @@ public interface UserInterface {
 	void displayWelcomeInformation();
 	void printItem(Category category, String itemName,String additionalDetail ,int price);
 	int selectItems();
+	int optimiseSearch();
 }

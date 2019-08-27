@@ -12,6 +12,8 @@ import com.software.eCommerce.datamodel.Book;
 import com.software.eCommerce.util.RandomOptimisedUtil;
 
 /**
+ * 
+ * 
  * @author ashish
  *
  */
@@ -19,7 +21,7 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	private static TreeMap<String, Book> tree_map = new TreeMap<String, Book>(); 
 	
 	public List<String> speedSearch(String itemName,Category categoryName, SearchBookOn searchBy, OrderBy orderBy,
-			Map<String, List<Book>> allProdcuts) {
+			Map<String, List<Book> > allProdcuts) {
 		
 		if(tree_map.size() == 0) {
 			createTreeMap(categoryName, searchBy, orderBy, allProdcuts);
@@ -30,19 +32,13 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		bui.printItem(Category.BOOK,book.getTitle(), book.getAuthor(), 
 				book.getPrice());
 		return null;
-		
-		
-			
 		}
 	
 	private void createTreeMap(Category categoryName, SearchBookOn searchBy, 
 			OrderBy orderBy,Map<String, List<Book>> allProdcuts) {
-		
 			List<Book>allBooks =  allProdcuts.get(categoryName.name());
-		
-		
+
 		for (Book book : allBooks) {
-			
 			if(searchBy.name() == "title")
 				{tree_map.put(book.getTitle(), book);}
 			if(searchBy.name() == "author") {
@@ -58,5 +54,17 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	public TreeMap<String, Book> getTreeMap(){
 		return tree_map;
 		
+	}
+	
+	public void buildTreeMap(int sortByKey) {
+		if (sortByKey == 1) {
+			
+		}
+		if (sortByKey == 2) {
+			
+		}
+		if (sortByKey == 3) {
+			
+		}
 	}
 }

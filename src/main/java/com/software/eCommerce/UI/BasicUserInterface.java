@@ -45,5 +45,13 @@ public class BasicUserInterface implements UserInterface {
 	public String getStringInput() {
 		String itemName =  input.nextLine();
 		return itemName;
+	}
+
+	public int optimiseSearch() {
+		System.out.println("For Optimise Search- Choose the parameter to searched upon");
+		System.out.println("1. BookTitle");
+		System.out.println("2. PublishedYear");
+		System.out.println("3. Author");
+		return getIntInput();
 	}	
 }

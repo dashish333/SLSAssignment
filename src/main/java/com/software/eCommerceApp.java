@@ -15,8 +15,10 @@ import com.software.eCommerce.services.Cart;
 import com.software.eCommerce.services.Category;
 import com.software.eCommerce.services.FileReaderImpl;
 import com.software.eCommerce.services.Product;
+import com.software.eCommerce.services.RandomOptimisedUtilImpl;
 import com.software.eCommerce.services.RepositoryMaintenance;
 import com.software.eCommerce.services.RepositoryMaintenanceImpl;
+import com.software.eCommerce.services.SearchBookOn;
 import com.software.eCommerce.services.YourCart;
 import com.software.eCommerce.util.FileLoad;
 
@@ -40,7 +42,11 @@ public class eCommerceApp
         case 1: System.out.println("Searching for Book - ");
         		String itemName = bui.getStringInput();
         		repository.searchProduct(Category.BOOK, itemName);
-        		System.out.println("A faster Search");
+        		
+        		System.out.println("\n\nFaster Search");
+        		int sortByKey = bui.optimiseSearch();
+        		
+        		
         		break;
         		
         case 2: System.out.println("Listing All Books");
@@ -52,6 +58,11 @@ public class eCommerceApp
         		List<Book> books = repository.getProduct(Category.BOOK, buyItemTitled); 
         		yourCart.addItemToCart(books);
         		
+        		
+        		// RandomOptimisedUtilImpl optimisedSearch = new RandomOptimisedUtilImpl();
+        		// Book book = books.get(0);
+        		
+        		//optimisedSearch.speedSearch(book.get, Category.BOOK, SearchBookOn., orderBy, allProdcuts)
         case 4: yourCart.viewCart();
         		break;
         default: System.out.println("Invalid choice");	
