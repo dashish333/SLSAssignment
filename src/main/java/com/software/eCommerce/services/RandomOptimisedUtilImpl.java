@@ -72,9 +72,10 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		tree_map = setTree_map(orderBy);
 		createTreeMap(searchBy, orderBy, allProducts);
 
-		Set<String> keySet = allProducts.keySet();
+		Set<String> keySet = tree_map.keySet();
 		for(String key : keySet) {
-            List<Book> books = new ArrayList<Book>(allProducts.get(key));
+			System.out.println("Key is = "+key);
+            List<Book> books = new ArrayList<Book>(tree_map.get(key));
             for(Book book : books) 
             {
             	bui.printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice());
@@ -91,7 +92,7 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	
 	private TreeMap<String, List<Book>>  setTree_map(String orderBy)
 	{
-		if(orderBy.equals(OrderBy.DESC.name())) {return new TreeMap<String, List<Book>>(Collections.reverseOrder());}
+		if(orderBy.equals("DESC")) {return new TreeMap<String, List<Book>>(Collections.reverseOrder());}
 		return new TreeMap<String, List<Book>>(Collections.reverseOrder());
 		
 	}

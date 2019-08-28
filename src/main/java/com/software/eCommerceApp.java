@@ -58,7 +58,7 @@ public class eCommerceApp
         		repository.printAllProducts();
         		System.out.println("\n\nSorted Listing");
         		begin = timeTracker.startTime();
-        		optimisedSearch.ListAllProducts(SearchBookOn.title.name(),OrderBy.DESC.name(),repository.getAllProducts());
+        		optimisedSearch.ListAllProducts(SearchBookOn.title.name(),"DESC",repository.getAllProducts());
         		end = timeTracker.endTime();
         		System.out.println("Search Taken = "+(end - begin));
         		break;
