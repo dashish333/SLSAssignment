@@ -22,8 +22,6 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 	private Map<String, List<Book> > allProducts = new HashMap<String, List<Book>>();
 	
 	public void addProduct(Product product, String productCategory) {
-		System.out.println(((Book) product).getAuthor());
-		System.out.println(productCategory);
 		if(allProducts.containsKey(productCategory)) {
 			List<Book> inventoryUpdateOfThisCategory = allProducts.get(productCategory);
 			inventoryUpdateOfThisCategory.add((Book) product);
