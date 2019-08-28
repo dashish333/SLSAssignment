@@ -47,8 +47,8 @@ public class BasicUserInterface implements UserInterface {
 		return itemName;
 	}
 
-	public int optimiseSearch() {
-		System.out.println("For Optimise Search- Choose the parameter to searched upon");
+	public int optimiseSortSearch() {
+		System.out.println("For Optimise Search/Sort- Choose the parameter to searched/sorted upon");
 		System.out.println("1. BookTitle");
 		System.out.println("2. PublishedYear");
 		System.out.println("3. Author");

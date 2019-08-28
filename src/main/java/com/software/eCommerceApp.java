@@ -6,14 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
-
-import org.junit.Test;
-
 import com.software.eCommerce.UI.BasicUserInterface;
 import com.software.eCommerce.datamodel.Book;
 import com.software.eCommerce.services.Cart;
 import com.software.eCommerce.services.Category;
 import com.software.eCommerce.services.FileReaderImpl;
+import com.software.eCommerce.services.OrderBy;
 import com.software.eCommerce.services.Product;
 import com.software.eCommerce.services.RandomOptimisedUtilImpl;
 import com.software.eCommerce.services.RepositoryMaintenance;
@@ -34,6 +32,7 @@ public class eCommerceApp
 	private static final RepositoryMaintenance repository = new RepositoryMaintenanceImpl();
 	private static final Cart yourCart = new YourCart();
 	private static final  TimeTrackingUtilImpl timeTracker = new TimeTrackingUtilImpl();
+	private static final RandomOptimisedUtilImpl optimisedSearch = new RandomOptimisedUtilImpl();
     public static void main( String[] args )
     {
     	addItemForCategory();
@@ -48,18 +47,20 @@ public class eCommerceApp
         		repository.searchProduct(Category.BOOK, itemName);
         		long end = timeTracker.endTime();
         		System.out.println("\n Time in Search Taken = "+(end - begin));
-        		
         		System.out.println("\n\nFaster Search");
-        		int sortByKey = bui.optimiseSearch();
-        		RandomOptimisedUtilImpl optimisedSearch = new RandomOptimisedUtilImpl();
         		begin = timeTracker.startTime();
-        		optimisedSearch.searchForItem(sortByKey, repository.getAllProducts());
+        		optimisedSearch.searchForItem(repository.getAllProducts());
         		end = timeTracker.endTime();
         		System.out.println("Search Taken = "+(end - begin));
         		break;
         		
         case 2: System.out.println("Listing All Books");
         		repository.printAllProducts();
+        		System.out.println("\n\nSorted Listing");
+        		begin = timeTracker.startTime();
+        		optimisedSearch.ListAllProducts(SearchBookOn.title.name(),OrderBy.DESC.name(),repository.getAllProducts());
+        		end = timeTracker.endTime();
+        		System.out.println("Search Taken = "+(end - begin));
         		break;
         		
         case 3: System.out.println("Enter book title to buy: "); 

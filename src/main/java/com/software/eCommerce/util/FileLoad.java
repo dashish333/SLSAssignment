@@ -12,12 +12,12 @@ import com.software.eCommerce.services.Product;
 
 public class FileLoad extends FileReaderImpl {
 	private static final String BOOK_FILE_PATH = "/Users/ashishdwivedi/eclipse-workspace/SLSAssignment/SLSAssignment/book.txt"; 
-	
+	private static final String Strand_Book_File_Path = "/home/ashish/git_repo/SLSAssignment/book.txt";
 	
 	public List<String[]> loadFile() {
 		String rowRecord;
 		List<String[]> tokens=new ArrayList<String[]>();
-		BufferedReader reader = fileReader(BOOK_FILE_PATH);
+		BufferedReader reader = fileReader(Strand_Book_File_Path);
 		try {
     		while ((rowRecord = reader.readLine()) != null)   
     		{
