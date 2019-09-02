@@ -10,39 +10,40 @@ import java.util.Map;
 
 import com.software.eCommerce.UI.BasicUserInterface;
 import com.software.eCommerce.datamodel.Book;
-import com.software.eCommerce.services.Product;
-import com.software.eCommerce.services.RepositoryMaintenance;
+import com.software.eCommerce.util.Category;
+import com.software.eCommerce.util.RepositoryMaintenance;
+import com.software.eCommerce.util.SearchBookOn;
 
 /**
+ * 
  * @author ashish
  *
  */
 
 public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
-	private Map<String, List<Book> > allProducts = new HashMap<String, List<Book>>();
+	private Map<Category, List<Book>> allBooks = new HashMap<Category, List<Book>>();
 	
-	public void addProduct(Product product, String productCategory) {
-		if(allProducts.containsKey(productCategory)) {
-			List<Book> inventoryUpdateOfThisCategory = allProducts.get(productCategory);
-			inventoryUpdateOfThisCategory.add((Book) product);
-			allProducts.replace(productCategory, inventoryUpdateOfThisCategory);
+	public void addProduct(Book book, Category category) {
+		if(allBooks.containsKey(category)) {
+			List<Book> inventoryUpdateOfThisCategory = allBooks.get(category);
+			inventoryUpdateOfThisCategory.add(book);
+			allBooks.replace(category, inventoryUpdateOfThisCategory);
 		}
 		else
 		{
 			List<Book> inventoryUpdateOfThisCategory = new ArrayList<Book>();
-			inventoryUpdateOfThisCategory.add((Book) product);
-			allProducts.put(productCategory, inventoryUpdateOfThisCategory);
+			inventoryUpdateOfThisCategory.add(book);
+			allBooks.put(category, inventoryUpdateOfThisCategory);
 		}
-
 	}
 	public void searchProduct(Category category,String itemName) {
 		System.out.println("Searching....."+itemName);
-		if(allProducts.containsKey(category.name()))
+		if(allBooks.containsKey(category))
 		{
 			int matches = 0;
-			List<Book> items = allProducts.get(category.name());
+			List<Book> items = allBooks.get(category);
 			BasicUserInterface bui = new BasicUserInterface();
-			for (Product item : items) {
+			for (Book item : items) {
 				if((((Book)item).getTitle()).equals(itemName))
 				{
 					bui.printItem(((Book)item).getProductCategory(),itemName, ((Book)item).getAuthor(), 
@@ -59,11 +60,11 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 	
 	}
 
-	public Map<String, List<Book>> getAllProducts() {
-		return allProducts;
+	public Map<Category, List<Book> > getAllProducts() {
+		return allBooks;
 	}
 	public void printAllProducts() {
-		List<Book>itemsInCategory = allProducts.get(Category.BOOK.name());
+		List<Book>itemsInCategory = allBooks.get(Category.BOOK);
 		BasicUserInterface bui = new BasicUserInterface();
 		System.out.println("Displaying All Items.....");
 		for (Book item : itemsInCategory) {
@@ -71,7 +72,7 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		}
 	}
 	public List<Book> getProduct(Category category, String itemName) {
-			List<Book> items = allProducts.get(category.name());
+			List<Book> items = allBooks.get(category.name());
 			List<Book>matchedBook = new ArrayList<Book>();
 			for (Book item : items) {
 				if(item.getTitle().equals(itemName))
@@ -85,5 +86,6 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		}
 		return matchedBook;
 	}
-
+	
+	
 }

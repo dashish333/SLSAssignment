@@ -14,7 +14,10 @@ import java.util.TreeMap;
 
 import com.software.eCommerce.UI.BasicUserInterface;
 import com.software.eCommerce.datamodel.Book;
+import com.software.eCommerce.util.Category;
+import com.software.eCommerce.util.OrderBy;
 import com.software.eCommerce.util.RandomOptimisedUtil;
+import com.software.eCommerce.util.SearchBookOn;
 
 /**
  * 
@@ -23,61 +26,64 @@ import com.software.eCommerce.util.RandomOptimisedUtil;
  *
  */
 public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
-	private static TreeMap<String, List<Book>> tree_map = null;
+	
+	private static TreeMap<String, List<Book>> bookTreeMap = null;
 	private static String sortedBy = null;
 	private BasicUserInterface bui = new BasicUserInterface();
 	
 	
-	public void speedSearch(String searchString, String searchBy, String orderBy,
-			Map<String, List<Book> > allProducts) {
-			tree_map = setTree_map(orderBy);
-			createTreeMap(searchBy, orderBy, allProducts);
+	public void speedSearch(String searchString, SearchBookOn searchBy, OrderBy orderBy,
+			Map<Category, List<Book> > allProducts) {
+			if(bookTreeMap.size()==0 || bookTreeMap.equals(null)) {
+			bookTreeMap = setBookTreeMap(orderBy);
+			}
+			createBookTreeMap(searchBy, orderBy, allProducts);
 		System.out.println("Searching.....");
-		List<Book> books = tree_map.get(searchString);
+		List<Book> books = bookTreeMap.get(searchString);
 		System.out.println("Following items matched your search");
 		for(Book book : books) {
 		bui.printItem(Category.BOOK,book.getTitle(), book.getAuthor(), 
 				book.getPrice());
 		}
-		System.out.println("Tree Map Size = "+tree_map.size());
+		//System.out.println("Tree Map Size = " + bookTreeMap.size());
 		}
 
 	public TreeMap<String, List<Book>> getTreeMap(){
-		return tree_map;	
+		return bookTreeMap;	
 	}
 	
-	public void searchForItem(Map<String, List<Book>> allProducts) {
+	public int searchForItem(Map<Category, List<Book>> allProducts) {
 		int sortByKey = bui.optimiseSortSearch();
 		if (sortByKey == 1) {
 		System.out.print("Enter the title of book:");
 			String title =  bui.getStringInput();
 			System.out.println(title);
-			speedSearch(title, SearchBookOn.title.name(), OrderBy.ASC.name(), allProducts);
+			speedSearch(title, SearchBookOn.title, OrderBy.ASC, allProducts);
 		}
 		if (sortByKey == 2) {
 			System.out.print("Enter author name:");
 			String author = bui.getStringInput();
-			speedSearch(author, SearchBookOn.author.name(), OrderBy.ASC.name(), allProducts);
+			speedSearch(author, SearchBookOn.author, OrderBy.ASC, allProducts);
 			
 		}
 		if (sortByKey == 3) {
-			System.out.print("year");
+			//System.out.print("year");
 			System.out.print("Enter year");
 			String year = bui.getStringInput();
-			speedSearch(year, SearchBookOn.year.name(), OrderBy.ASC.name(), allProducts);
+			speedSearch(year, SearchBookOn.year, OrderBy.ASC, allProducts);
 			
 		}
+		return sortByKey;
 	}
-	public void ListAllProducts(String searchBy,String orderBy ,Map<String, List<Book>> allProducts) {
-		tree_map = setTree_map(orderBy);
-		createTreeMap(searchBy, orderBy, allProducts);
+	public void ListAllProducts(SearchBookOn searchBy,OrderBy orderBy ,Map<Category, List<Book> > allProducts) {
+		//bookTreeMap = setBookTreeMap(orderBy);
+		createBookTreeMap(searchBy, orderBy, allProducts);
 
-		Set<String> keySet = tree_map.keySet();
+		Set<String> keySet = bookTreeMap.keySet();
 		for(String key : keySet) {
-			System.out.println("Key is = "+key);
-            List<Book> books = new ArrayList<Book>(tree_map.get(key));
+            List<Book> books = new ArrayList<Book>(bookTreeMap.get(key));
             for(Book book : books) 
-            {
+            {	if((searchBy.name()).equals("year")){System.out.println("year-"+book.getYear());}
             	bui.printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice());
             }
         }
@@ -90,53 +96,57 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		
 	}
 	
-	private TreeMap<String, List<Book>>  setTree_map(String orderBy)
+	private TreeMap<String, List<Book>>  setBookTreeMap(OrderBy orderBy)
 	{
-		if(orderBy.equals("DESC")) {return new TreeMap<String, List<Book>>(Collections.reverseOrder());}
-		return new TreeMap<String, List<Book>>(Collections.reverseOrder());
+		if(orderBy.name().equals("DESC")) {System.out.println("setting desc");
+			return new TreeMap<String, List<Book>>(Collections.reverseOrder());}
+		return new TreeMap<String, List<Book>>();
 		
 	}
-	
-	private void createTreeMap(String searchBy, String orderBy, Map<String, List<Book>> allProdcuts) {
-		List<Book>allBooks =  allProdcuts.get(Category.BOOK.name());
-		if(searchBy.equals("title"))
+	private void createBookTreeMap(SearchBookOn searchBy, OrderBy orderBy, Map<Category, List<Book>> allProdcuts) {
+		List<Book>allBooks =  allProdcuts.get(Category.BOOK);
+		System.out.println("Size-"+allBooks.size());
+		//System.out.println("treeMap size"+bookTreeMap.size());
+		bookTreeMap = setBookTreeMap(orderBy);
+		if(searchBy.name().equals("title"))
 			{ for (Book book:allBooks) 
 				{
-					if(tree_map.containsKey(book.getTitle())) {
-						List<Book> currentBooks = tree_map.get(book.getTitle());
-						tree_map.replace(book.getTitle(), updateList(currentBooks, book));
+					if(bookTreeMap.containsKey(book.getTitle())) {
+						List<Book> currentBooks = bookTreeMap.get(book.getTitle());
+						bookTreeMap.replace(book.getTitle(), updateList(currentBooks, book));
 					}
 					else {
 						List<Book> newBook = new ArrayList<Book>();
-						tree_map.put(book.getTitle(), updateList(newBook, book));
+						bookTreeMap.put(book.getTitle(), updateList(newBook, book));
 					}
 				}
 			}
-		if(searchBy.equals("author")) {
+		if(searchBy.name().equals("author")) {
 			for (Book book:allBooks) 
 			{
-				if(tree_map.containsKey(book.getAuthor())) {
-					List<Book> currentBooks = tree_map.get(book.getAuthor());
-					tree_map.replace(book.getAuthor(), updateList(currentBooks, book));
+				if(bookTreeMap.containsKey(book.getAuthor())) {
+					List<Book> currentBooks = bookTreeMap.get(book.getAuthor());
+					bookTreeMap.replace(book.getAuthor(), updateList(currentBooks, book));
 				}
 				else {
 					List<Book> newBook = new ArrayList<Book>();
-					tree_map.put(book.getAuthor(), updateList(newBook, book));
+					bookTreeMap.put(book.getAuthor(), updateList(newBook, book));
 				}
 			}
 			}
-		if(searchBy.equals("Year")) {
+		if(searchBy.name().equals("year")) {
 			for (Book book:allBooks) 
 			{
-				if(tree_map.containsKey(String.valueOf(book.getYear()))) {
-					List<Book> currentBooks = tree_map.get(book.getYear());
-					tree_map.replace(String.valueOf(book.getYear()), updateList(currentBooks, book));
+				if(bookTreeMap.containsKey(String.valueOf(book.getYear()))) {
+					List<Book> currentBooks = bookTreeMap.get(book.getYear());
+					bookTreeMap.replace(String.valueOf(book.getYear()), updateList(currentBooks, book));
 				}
 				else {
 					List<Book> newBook = new ArrayList<Book>();
-					tree_map.put(String.valueOf(book.getYear()), updateList(newBook, book));
+					bookTreeMap.put(String.valueOf(book.getYear()), updateList(newBook, book));
 				}
 			}
 		}
+		System.out.println("- treeMap size"+bookTreeMap.size());
 	}
 }

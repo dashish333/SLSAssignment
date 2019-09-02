@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.software.eCommerce.services;
+package com.software.eCommerce.util;
 
 /**
  * @author ashish

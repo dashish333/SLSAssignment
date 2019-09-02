@@ -1,4 +1,4 @@
-package com.software.eCommerce.services;
+package com.software.eCommerce.util;
 
 public enum SearchBookOn {
 	title,

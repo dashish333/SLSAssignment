@@ -3,8 +3,9 @@
  */
 package com.software.eCommerce.datamodel;
 
-import com.software.eCommerce.services.Category;
-import com.software.eCommerce.services.Product;
+import com.software.eCommerce.util.BindingType;
+import com.software.eCommerce.util.Category;
+import com.software.eCommerce.util.Product;
 
 /**
  * @author ashish
@@ -17,10 +18,10 @@ public class Book implements Product {
 	private final  String isbn;
 	private final  String publisher;
 	private final  String language;
-	private final  String bindingType;
+	private final  BindingType bindingType;
 	private final int year;
 	private final int price;
-	public Book(String title, String author, String isbn, String publisher, String language, String bindingType,
+	public Book(String title, String author, String isbn, String publisher, String language, BindingType bindingType,
 			int year, int price) {
 		this.title = title;
 		this.author = author;
@@ -47,7 +48,7 @@ public class Book implements Product {
 	public String getLanguage() {
 		return language;
 	}
-	public String getBindingType() {
+	public BindingType getBindingType() {
 		return bindingType;
 	}
 	public int getYear() {

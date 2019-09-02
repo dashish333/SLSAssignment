@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.software.eCommerce.services;
+package com.software.eCommerce.util;
 
 import java.util.List;
 import java.util.Map;
@@ -13,9 +13,9 @@ import com.software.eCommerce.datamodel.Book;
  *
  */
 public interface RepositoryMaintenance {
-	void addProduct(Product product, String productCategory);
+	void addProduct(Book book, Category productCategory);
 	void searchProduct(Category category,String itemName);
-	Map<String, List<Book>> getAllProducts();
+	Map<Category, List<Book>> getAllProducts();
 	List<Book> getProduct(Category category, String itemName);
 	void printAllProducts();
 	
