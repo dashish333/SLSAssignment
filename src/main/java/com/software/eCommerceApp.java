@@ -1,26 +1,22 @@
 package com.software;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+
 import com.software.eCommerce.UI.BasicUserInterface;
 import com.software.eCommerce.datamodel.Book;
-import com.software.eCommerce.services.FileReaderImpl;
+import com.software.eCommerce.services.FileLoad;
 import com.software.eCommerce.services.RandomOptimisedUtilImpl;
 import com.software.eCommerce.services.RepositoryMaintenanceImpl;
 import com.software.eCommerce.services.TimeTrackingUtilImpl;
 import com.software.eCommerce.services.YourCart;
-import com.software.eCommerce.util.BindingType;
 import com.software.eCommerce.util.Cart;
 import com.software.eCommerce.util.Category;
 import com.software.eCommerce.util.OrderBy;
 import com.software.eCommerce.util.RandomDataGenerator;
-import com.software.eCommerce.services.FileLoad;
 import com.software.eCommerce.util.RepositoryMaintenance;
 import com.software.eCommerce.util.SearchBookOn;
+import com.software.eCommerce.util.BindingType;
 
 /**
  * Hello world!
@@ -30,7 +26,7 @@ import com.software.eCommerce.util.SearchBookOn;
 
 public class eCommerceApp 
 {
-	private static RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
+	//private static RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
 	private static final RepositoryMaintenance repository = new RepositoryMaintenanceImpl();
 	private static final Cart yourCart = new YourCart();
 	private static final  TimeTrackingUtilImpl timeTracker = new TimeTrackingUtilImpl();
@@ -38,7 +34,7 @@ public class eCommerceApp
     public static void main( String[] args ) throws IOException
     {
     	boolean infiniteLoop = true;
-    	randomDataGenerator.createCsvFileWithRandomValues();
+    	//randomDataGenerator.createCsvFileWithRandomValues();
     	addItemForCategory();
     	BasicUserInterface bui = new BasicUserInterface();
     	int sortByKey;
@@ -47,7 +43,6 @@ public class eCommerceApp
     	while(infiniteLoop) {
     		System.out.println("\n");
     	switch(bui.selectItems()){
-    	
         case 1: 
         		System.out.println("Searching for Book - ");
         		String itemName = bui.getStringInput();

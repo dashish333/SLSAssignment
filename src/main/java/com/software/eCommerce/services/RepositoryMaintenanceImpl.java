@@ -44,10 +44,10 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 			List<Book> items = allBooks.get(category);
 			BasicUserInterface bui = new BasicUserInterface();
 			for (Book item : items) {
-				if((((Book)item).getTitle()).equals(itemName))
+				if((item.getTitle()).equals(itemName))
 				{
-					bui.printItem(((Book)item).getProductCategory(),itemName, ((Book)item).getAuthor(), 
-							((Book)item).getPrice());
+					bui.printItem(item.getProductCategory(),itemName, ((Book)item).getAuthor(), 
+							item.getPrice(),item.getYear());
 					matches++;
 				}
 			}
@@ -67,9 +67,8 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		List<Book>itemsInCategory = allBooks.get(Category.BOOK);
 		BasicUserInterface bui = new BasicUserInterface();
 		System.out.println("Displaying All Items.....");
-		for (Book item : itemsInCategory) {
-			bui.printItem(item.getProductCategory(),item.getTitle(),item.getAuthor(),item.getPrice());
-		}
+		bui.showFewRecords(itemsInCategory);
+		
 	}
 	public List<Book> getProduct(Category category, String itemName) {
 			List<Book> items = allBooks.get(category.name());

@@ -21,14 +21,12 @@ public class YourCart implements Cart {
 	public void viewCart() {
 		
 		userInterface.displayWelcomeInformation();
-		
 		List<Book> itemsInCart = getCart();
-		for (Book item : itemsInCart) {
-			userInterface.printItem(item.getProductCategory(),item.getTitle(),item.getAuthor(), item.getPrice());
-		}
+		userInterface.showFewRecords(itemsInCart);
 	}
 	
 	private List<Book> getCart(){
+		if(itemsInCart == null) {itemsInCart = new ArrayList<Book>();}
 		return itemsInCart;
 		
 	}

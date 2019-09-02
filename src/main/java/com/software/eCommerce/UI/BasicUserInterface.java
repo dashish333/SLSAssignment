@@ -1,7 +1,9 @@
 package com.software.eCommerce.UI;
 
+import java.util.List;
 import java.util.Scanner;
 
+import com.software.eCommerce.datamodel.Book;
 import com.software.eCommerce.util.Category;
 import com.software.eCommerce.util.OrderBy;
 import com.software.eCommerce.util.SearchBookOn;
@@ -29,12 +31,12 @@ public class BasicUserInterface implements UserInterface {
 
 	public void displayWelcomeInformation() {
 		System.out.println("Welcome: This is your Cart \n");
-		System.out.println("Type Of Product \t|\t Item \t|\t ProductDetail  \t| \t price \n");
+		System.out.println("Type Of Product \t|\t Item \t|\t ProductDetail  \t| \t price \t |\t year \n");
 		
 	}
-	public void printItem(Category category, String itemName,String additionalDetail ,int price) {
-		System.out.printf("ProductCategory-{%s} | ItemName-{%s} | Authored by-{%s} | price($) - {%d}\n",
-				category.name(),itemName,additionalDetail,price);
+	public void printItem(Category category, String itemName,String additionalDetail ,int price,int year) {
+		System.out.printf("ProductCategory-{%s} | ItemName-{%s} | Authored by-{%s} | price($) - {%d} | year - {%d}\n",
+				category.name(),itemName,additionalDetail,price,year);
 	}
 	
 	public int selectItems() {
@@ -52,8 +54,8 @@ public class BasicUserInterface implements UserInterface {
 	public int optimiseSortSearch() {
 		System.out.println("For Optimise Search/Sort- Choose the parameter to searched/sorted upon");
 		System.out.println("1. BookTitle");
-		System.out.println("2. Author");
-		System.out.println("3. Year");
+		System.out.println("2. Year");
+		System.out.println("3. Author");
 		return getIntInput();
 	}
 	
@@ -77,8 +79,26 @@ public class BasicUserInterface implements UserInterface {
 		return SearchBookOn.author;
 	}
 
-	public void searchSortMenu() {
-		// TODO Auto-generated method stub
+	public void showFewRecords(List<Book> keyBooksMapping) {
+		//System.out.printf("Showing %d Records\n",keyBooksMapping.size());
+		if(keyBooksMapping.size() > 10)
+		{	int numberOfRecordsToShow = 10;
+			for (Book book: keyBooksMapping) 
+			{	
+				printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
+				numberOfRecordsToShow--;
+				if(numberOfRecordsToShow == 0) {
+					System.out.println("\n --------Would like to print further records for this Category? Press 1-----");
+					int choice = getIntInput();
+					if (choice == 1) {numberOfRecordsToShow = 10;}
+					else {return;}
+				}
+			}				
+		}
+		for(Book book : keyBooksMapping) 
+        {
+        	printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
+        }
 		
 	}
 }

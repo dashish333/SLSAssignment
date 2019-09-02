@@ -30,22 +30,17 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	private static TreeMap<String, List<Book>> bookTreeMap = null;
 	private static String sortedBy = null;
 	private BasicUserInterface bui = new BasicUserInterface();
-	
-	
-	public void speedSearch(String searchString, SearchBookOn searchBy, OrderBy orderBy,
+		
+	public void speedSearch(String searchString, SearchBookOn searchBy,
 			Map<Category, List<Book> > allProducts) {
-			if(bookTreeMap.size()==0 || bookTreeMap.equals(null)) {
-			bookTreeMap = setBookTreeMap(orderBy);
+			if(bookTreeMap == null || bookTreeMap.size()==0 ) {
+			bookTreeMap = setBookTreeMap(OrderBy.ASC);
 			}
-			createBookTreeMap(searchBy, orderBy, allProducts);
+			createBookTreeMap(searchBy, allProducts);
 		System.out.println("Searching.....");
 		List<Book> books = bookTreeMap.get(searchString);
 		System.out.println("Following items matched your search");
-		for(Book book : books) {
-		bui.printItem(Category.BOOK,book.getTitle(), book.getAuthor(), 
-				book.getPrice());
-		}
-		//System.out.println("Tree Map Size = " + bookTreeMap.size());
+		bui.showFewRecords(books);
 		}
 
 	public TreeMap<String, List<Book>> getTreeMap(){
@@ -58,34 +53,42 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		System.out.print("Enter the title of book:");
 			String title =  bui.getStringInput();
 			System.out.println(title);
-			speedSearch(title, SearchBookOn.title, OrderBy.ASC, allProducts);
+			speedSearch(title, SearchBookOn.title, allProducts);
 		}
 		if (sortByKey == 2) {
 			System.out.print("Enter author name:");
 			String author = bui.getStringInput();
-			speedSearch(author, SearchBookOn.author, OrderBy.ASC, allProducts);
+			speedSearch(author, SearchBookOn.author, allProducts);
 			
 		}
 		if (sortByKey == 3) {
-			//System.out.print("year");
 			System.out.print("Enter year");
 			String year = bui.getStringInput();
-			speedSearch(year, SearchBookOn.year, OrderBy.ASC, allProducts);
+			speedSearch(year, SearchBookOn.year, allProducts);
 			
 		}
 		return sortByKey;
 	}
 	public void ListAllProducts(SearchBookOn searchBy,OrderBy orderBy ,Map<Category, List<Book> > allProducts) {
-		//bookTreeMap = setBookTreeMap(orderBy);
-		createBookTreeMap(searchBy, orderBy, allProducts);
-
+		if(bookTreeMap == null || bookTreeMap.size()==0 ) 
+		{	
+		bookTreeMap = setBookTreeMap(orderBy);
+		}
+		createBookTreeMap(searchBy, allProducts);
+		System.out.println("book tree map size"+bookTreeMap.size());
 		Set<String> keySet = bookTreeMap.keySet();
+		int numberOfRecordsToSee = 10;
 		for(String key : keySet) {
             List<Book> books = new ArrayList<Book>(bookTreeMap.get(key));
-            for(Book book : books) 
-            {	if((searchBy.name()).equals("year")){System.out.println("year-"+book.getYear());}
-            	bui.printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice());
-            }
+            bui.showFewRecords(books);
+            numberOfRecordsToSee--;
+			if(numberOfRecordsToSee == 0) 
+			{
+				System.out.println("\n ## Press 1 to see next ten records ##");
+				int choice = bui.getIntInput();
+				if(choice == 1) {numberOfRecordsToSee=10;}
+				else {return;}
+			}
         }
 	}
 	
@@ -98,16 +101,14 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	
 	private TreeMap<String, List<Book>>  setBookTreeMap(OrderBy orderBy)
 	{
-		if(orderBy.name().equals("DESC")) {System.out.println("setting desc");
+		if(orderBy.name().equals("DESC")) {//System.out.println("setting desc");
 			return new TreeMap<String, List<Book>>(Collections.reverseOrder());}
 		return new TreeMap<String, List<Book>>();
 		
 	}
-	private void createBookTreeMap(SearchBookOn searchBy, OrderBy orderBy, Map<Category, List<Book>> allProdcuts) {
+	private void createBookTreeMap(SearchBookOn searchBy, Map<Category, List<Book>> allProdcuts) {
 		List<Book>allBooks =  allProdcuts.get(Category.BOOK);
 		System.out.println("Size-"+allBooks.size());
-		//System.out.println("treeMap size"+bookTreeMap.size());
-		bookTreeMap = setBookTreeMap(orderBy);
 		if(searchBy.name().equals("title"))
 			{ for (Book book:allBooks) 
 				{
@@ -138,7 +139,7 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 			for (Book book:allBooks) 
 			{
 				if(bookTreeMap.containsKey(String.valueOf(book.getYear()))) {
-					List<Book> currentBooks = bookTreeMap.get(book.getYear());
+					List<Book> currentBooks = bookTreeMap.get(String.valueOf(book.getYear()));
 					bookTreeMap.replace(String.valueOf(book.getYear()), updateList(currentBooks, book));
 				}
 				else {

@@ -8,6 +8,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import com.software.eCommerce.util.BindingType;
 
 public class RandomDataGenerator {
 	
@@ -48,7 +49,7 @@ public class RandomDataGenerator {
 
 	        long startTime = System.currentTimeMillis();
 
-	        for (int j = 0; j < 10; j++) {
+	        for (int j = 0; j < 100000; j++) {
 
 	            // For assigning random Strings to first five fields (Title, author, ISBN, Publisher, Language) of Book
 	            StringBuilder stringBuilder = new StringBuilder("");
