@@ -72,7 +72,7 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	public void ListAllProducts(SearchBookOn searchBy,OrderBy orderBy ,Map<Category, List<Book> > allProducts) {	
 		bookTreeMap = setBookTreeMap(orderBy);
 		createBookTreeMap(searchBy, allProducts);
-		System.out.println("book tree map size"+bookTreeMap.size());
+		//System.out.println("book tree map size"+bookTreeMap.size());
 		Set<String> keySet = bookTreeMap.keySet();
 		int numberOfRecordsToSee = 10;
 		for(String key : keySet) {
@@ -146,6 +146,6 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 				}
 			}
 		}
-		System.out.println("- treeMap size"+bookTreeMap.size());
+		//System.out.println("- treeMap size"+bookTreeMap.size());
 	}
 }

@@ -15,7 +15,17 @@ public class YourCart implements Cart {
 	private static final UserInterface userInterface = new BasicUserInterface();
 	
 	public void addItemToCart(List<Book> books) {
-		itemsInCart = new ArrayList<Book>(books);
+		if(itemsInCart !=null && itemsInCart.size() > 0) 
+		{
+			for(Book book : books) {
+				itemsInCart.add(book);
+			}
+			
+		}
+		else {
+			itemsInCart = new ArrayList<Book>(books);
+		}
+		
 	}
 
 	public void viewCart() {
