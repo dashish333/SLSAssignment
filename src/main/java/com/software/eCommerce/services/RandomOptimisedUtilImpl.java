@@ -69,11 +69,8 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		}
 		return sortByKey;
 	}
-	public void ListAllProducts(SearchBookOn searchBy,OrderBy orderBy ,Map<Category, List<Book> > allProducts) {
-		if(bookTreeMap == null || bookTreeMap.size()==0 ) 
-		{	
+	public void ListAllProducts(SearchBookOn searchBy,OrderBy orderBy ,Map<Category, List<Book> > allProducts) {	
 		bookTreeMap = setBookTreeMap(orderBy);
-		}
 		createBookTreeMap(searchBy, allProducts);
 		System.out.println("book tree map size"+bookTreeMap.size());
 		Set<String> keySet = bookTreeMap.keySet();
@@ -108,6 +105,7 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	}
 	private void createBookTreeMap(SearchBookOn searchBy, Map<Category, List<Book>> allProdcuts) {
 		List<Book>allBooks =  allProdcuts.get(Category.BOOK);
+		bookTreeMap.clear();
 		System.out.println("Size-"+allBooks.size());
 		if(searchBy.name().equals("title"))
 			{ for (Book book:allBooks) 

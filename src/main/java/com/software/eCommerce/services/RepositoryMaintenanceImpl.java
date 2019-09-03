@@ -71,7 +71,9 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		
 	}
 	public List<Book> getProduct(Category category, String itemName) {
-			List<Book> items = allBooks.get(category.name());
+			System.out.println(allBooks.size());
+			List<Book> items = allBooks.get(category);
+			System.out.println("itemsSize"+items.size());
 			List<Book>matchedBook = new ArrayList<Book>();
 			for (Book item : items) {
 				if(item.getTitle().equals(itemName))
