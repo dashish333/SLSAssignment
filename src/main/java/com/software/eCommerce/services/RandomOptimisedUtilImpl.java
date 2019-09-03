@@ -40,7 +40,7 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		System.out.println("Searching.....");
 		List<Book> books = bookTreeMap.get(searchString);
 		System.out.println("Following items matched your search");
-		bui.showFewRecords(books);
+		bui.showFewRecords(books,Category.BOOK.name());
 		}
 
 	public TreeMap<String, List<Book>> getTreeMap(){
@@ -55,13 +55,13 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 			System.out.println(title);
 			speedSearch(title, SearchBookOn.title, allProducts);
 		}
-		if (sortByKey == 2) {
+		if (sortByKey == 3) {
 			System.out.print("Enter author name:");
 			String author = bui.getStringInput();
 			speedSearch(author, SearchBookOn.author, allProducts);
 			
 		}
-		if (sortByKey == 3) {
+		if (sortByKey == 2) {
 			System.out.print("Enter year");
 			String year = bui.getStringInput();
 			speedSearch(year, SearchBookOn.year, allProducts);
@@ -77,11 +77,12 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		int numberOfRecordsToSee = 10;
 		for(String key : keySet) {
             List<Book> books = new ArrayList<Book>(bookTreeMap.get(key));
-            bui.showFewRecords(books);
+            boolean toShowFurtherRecords = bui.showFewRecords(books,key);
+           // System.out.println("show further records = "+showFurtherRecords);
             numberOfRecordsToSee--;
-			if(numberOfRecordsToSee == 0) 
+			if(numberOfRecordsToSee == 0 || toShowFurtherRecords == false) 
 			{
-				System.out.println("\n ## Press 1 to see next ten records ##");
+				System.out.printf("\n ##Press 1 to see next records for-{%s} ##",searchBy.name());
 				int choice = bui.getIntInput();
 				if(choice == 1) {numberOfRecordsToSee=10;}
 				else {return;}

@@ -7,6 +7,7 @@ import com.software.eCommerce.UI.BasicUserInterface;
 import com.software.eCommerce.UI.UserInterface;
 import com.software.eCommerce.datamodel.Book;
 import com.software.eCommerce.util.Cart;
+import com.software.eCommerce.util.Category;
 
 
 public class YourCart implements Cart {
@@ -32,7 +33,7 @@ public class YourCart implements Cart {
 		
 		userInterface.displayWelcomeInformation();
 		List<Book> itemsInCart = getCart();
-		userInterface.showFewRecords(itemsInCart);
+		userInterface.showFewRecords(itemsInCart,Category.BOOK.name());
 	}
 	
 	private List<Book> getCart(){

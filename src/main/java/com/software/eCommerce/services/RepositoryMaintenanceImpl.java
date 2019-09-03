@@ -67,7 +67,7 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		List<Book>itemsInCategory = allBooks.get(Category.BOOK);
 		BasicUserInterface bui = new BasicUserInterface();
 		System.out.println("Displaying All Items.....");
-		bui.showFewRecords(itemsInCategory);
+		bui.showFewRecords(itemsInCategory,Category.BOOK.name());
 		
 	}
 	public List<Book> getProduct(Category category, String itemName) {

@@ -79,8 +79,9 @@ public class BasicUserInterface implements UserInterface {
 		return SearchBookOn.author;
 	}
 
-	public void showFewRecords(List<Book> keyBooksMapping) {
+	public boolean showFewRecords(List<Book> keyBooksMapping,String key) {
 		//System.out.printf("Showing %d Records\n",keyBooksMapping.size());
+	
 		if(keyBooksMapping.size() > 10)
 		{	int numberOfRecordsToShow = 10;
 			for (Book book: keyBooksMapping) 
@@ -88,17 +89,20 @@ public class BasicUserInterface implements UserInterface {
 				printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
 				numberOfRecordsToShow--;
 				if(numberOfRecordsToShow == 0) {
-					System.out.println("\n --------Would like to print further records for this Category? Press 1-----");
+					System.out.printf("\n ------Would like to print further records for {%s}? Press 1-----",key);
 					int choice = getIntInput();
 					if (choice == 1) {numberOfRecordsToShow = 10;}
-					else {return;}
+					else {return false;}
 				}
-			}				
+			}
+		
 		}
+		
 		for(Book book : keyBooksMapping) 
         {
         	printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
         }
+		return true;
 		
 	}
 }

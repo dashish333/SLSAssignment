@@ -21,5 +21,5 @@ public interface UserInterface {
 	void printItem(Category category, String itemName,String additionalDetail ,int price, int year);
 	int selectItems();
 	int optimiseSortSearch();
-	void showFewRecords(List<Book> keyBookMapping);
+	boolean showFewRecords(List<Book> keyBookMapping, String key);
 }
