@@ -32,11 +32,16 @@ public class BasicUserInterface implements UserInterface {
 	}
 
 	public void displayWelcomeInformation() {
-		System.out.println("Welcome: This is your Cart \n");
+		System.out.println("-------------- Welcome: This is your Cart -------------");
 		
 	}
 	public void printItem(Category category, String itemName,String additionalDetail ,int price,int year) {
-		System.out.printf("%s \t\t %s \t\t %s \t\t %s \t\t %s \n",category.name() ,itemName, additionalDetail, price, year);
+		System.out.format("%s %40s%30s%20d%20d", category.name() ,itemName, additionalDetail, price, year);
+		System.out.println();
+	}
+	public void printHeader() 
+	{
+		System.out.format("%s %40s%30s%20s%20s\n", "Product Category" ,"Title", "Author Name", "Price", "Year of Publishing");
 	}
 	
 	public int selectItems() {
@@ -95,29 +100,44 @@ public class BasicUserInterface implements UserInterface {
         {
         	printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
         }
-		
-		
+	}
+	
+	public int pagination(List<Book> keyBooksMapping) {
+		if(keyBooksMapping.size() != 0) 
+		{
+			printHeader();
+			for(Book book : keyBooksMapping) 
+	        {
+	        	printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
+	        }
+		}
+		else {System.out.println("Records Found");}
+		System.out.println("See Next Records? Press 1.");
+		System.out.println("See Previous Records? Press 2.");
+		int choice = getIntInput();
+		return choice;
 	}
 		
 	public void printSearchTime(double searchTime) {
-		System.out.printf("All matching Results Returned in %.4f",searchTime);
+		System.out.printf("\nAll matching Results Returned in %.4f (msec.)\n",searchTime);
 	}
 
 	public void showCart(HashMap<Book, Integer> yourCart) {
 		if(yourCart.isEmpty()) {System.out.println("Cart Empty....");return;}
 		int itemNumber = 1;
 		for (Map.Entry<Book, Integer> entry : yourCart.entrySet()) {
-			System.out.println("ItemNumber - "+itemNumber);
+			System.out.printf("\nItemNumber - %d\n",itemNumber);
 			printCart(entry.getKey(), entry.getValue());
 			itemNumber++;
-		}	
+		}
 	}
 	private void printCart(Book book, int qty) {
-		System.out.println(book.getProductCategory()+"-- in Cart");
-		System.out.printf("Title - %s",book.getTitle());
-		System.out.printf("Author - %s",book.getAuthor());
-		System.out.printf("Publisher - %s",book.getPublisher());
-		System.out.printf("Price - %s",book.getPrice());
+		System.out.printf("--Product Type - %s\n",book.getProductCategory());
+		System.out.printf("  Title - %s\n",book.getTitle());
+		System.out.printf("  Author - %s\n",book.getAuthor());
+		System.out.printf("  Publisher - %s\n",book.getPublisher());
+		System.out.printf("  Price per Unit - %s\n",book.getPrice());
+		System.out.printf("  Quantity - %d\n",qty);
 	}
 
 	public Book showMultipleChoices(List<Book> books) {

@@ -38,11 +38,14 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 			if(bookTreeMap == null || bookTreeMap.size()==0 ) {
 			bookTreeMap = setBookTreeMap(OrderBy.ASC);
 			}
+			long start = timeTracker.currentTime();
 			createBookTreeMap(searchBy, allProducts);
-		System.out.println("Searching.....");
-		double start = timeTracker.currentTime();
+			long end = timeTracker.currentTime();
+			System.out.printf("\nTime To Optimum Data Structure -%.3f\n",end-start);
+		System.out.println("Searching..... \""+searchString+"\"");
+		 start = timeTracker.currentTime();
 		List<Book> books =    new ArrayList<Book>(bookTreeMap.get(searchString));
-		double end = timeTracker.currentTime();
+		 end = timeTracker.currentTime();
 		bui.printSearchTime(end-start);
 		System.out.println("Following items matched your search");
 		if(books.size()>0) {
@@ -52,10 +55,6 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 			System.out.println("0 items matched your search");
 		}
  }
-	public TreeMap<String, List<Book>> getTreeMap(){
-		return bookTreeMap;	
-	}
-	
 	
 	public int searchForItem(Map<Category, List<Book>> allProducts) {
 		int sortByKey = bui.optimiseSortSearch();
@@ -81,82 +80,76 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	public void ListAllProducts(SearchBookOn searchBy,OrderBy orderBy ,Map<Category, List<Book> > allProducts) throws InterruptedException {	
 		bookTreeMap = setBookTreeMap(orderBy);
 		createBookTreeMap(searchBy, allProducts);
+		//System.out.println("book tree size"+bookTreeMap.size());
 		int numberOfRecordsToSee = 10;
-		String seeNext = "1";
-		List<List<Book>>values = new ArrayList<List<Book>>(bookTreeMap.values()) ;
-		
-		int currentPos=1; // 1 forward, 0 backward
-		int lastWindowSize = 0;
+		int moveNext = 1;
+		int movePrevious = 0;
+		List<Book> currentWindow = new ArrayList<Book>();
+		List<List<Book> >values = new ArrayList<List<Book>>(bookTreeMap.values()) ;
+		int size = values.size();
+
+		int lastWindowSize = 0; // set by previous or next
 		for (ListIterator<List<Book>>iter = values.listIterator();; ) {
-			List<Book> currentWindow = new ArrayList<Book>();
-			if(seeNext.equals("1") && iter.hasNext()) {
-				System.out.println("\n Next Record \n");
-				if(currentPos == 0)
-				{for(int i=0;i<lastWindowSize;i++) {if(iter.hasNext()) {iter.next();}}}
-				currentPos = 1;
-				while(iter.hasNext() && numberOfRecordsToSee > 0) 
-				{
-					List <Book> books = iter.next();
-					int newDataSize = Math.min(books.size(),10-currentWindow.size());
-					currentWindow .addAll(books.subList(0, newDataSize));
-					numberOfRecordsToSee -= newDataSize;
-			
-				}
-			}
-			
-			if(seeNext.equals("2") && iter.hasPrevious())
-			{System.out.println("\n Previous Record \n");
-				if(iter.hasPrevious()) 
-			{		System.out.println("inside");
-					if(currentPos == 1)
-					{for(int i=0;i<lastWindowSize;i++) {if(iter.hasPrevious()) {iter.previous();}}}
-					currentPos = 0;
-					System.out.println(numberOfRecordsToSee+"ddkdlsd"+iter.hasPrevious());
-					while(iter.hasPrevious() && numberOfRecordsToSee > 0) 
-					{List <Book> books = iter.previous();
-					int newDataSize = Math.min(books.size(),10-currentWindow.size());
-					currentWindow .addAll(books.subList(0, newDataSize));
-					numberOfRecordsToSee -= newDataSize;
-					System.out.println("hisds-"+currentWindow.size());
+			//System.out.println("Loop Begin--\n");
+			if(moveNext == 1 && movePrevious == 0)
+			{
+				//System.out.println("inside 10 "+lastWindowSize);
+				if(lastWindowSize > 0) {
+					while(lastWindowSize > 0) { 
+						if(!iter.hasNext())
+							break;
+						iter.next();
+						lastWindowSize--;
+						size--;
 					}
-					if(currentWindow.size()>0) {
-						Collections.reverse(currentWindow);
-						}
 				}
-				System.out.println("hiwhew-"+currentWindow.size());
+				//System.out.println(size+"-1-"+iter.hasNext());
+				List<Book> tbooks = iter.next();
+				while((numberOfRecordsToSee - currentWindow.size())>0 && iter.hasNext()) {
+					List <Book> books = iter.next();
+					int index = Math.min(books.size(),numberOfRecordsToSee-currentWindow.size());
+					currentWindow .addAll(books.subList(0, index));
+					size--;
+				}
+				//System.out.println(size+" = size -1->"+"cWs - "+currentWindow.size());
 			}
-			if(currentWindow.size() > 0) {bui.showFewRecords(currentWindow);}
-			else 
+			else if (moveNext == 0 && movePrevious == 1)
 			{
-				if(seeNext.equals("1"))
-				{System.out.println("No Next Records to Show");}
-				else if(seeNext.equals("2")) {System.out.println("No Previous Records to Show");}
-				numberOfRecordsToSee = 0;
-			}			
-			if(numberOfRecordsToSee <= 0)
-			{
-				System.out.println("Would like to navigate more? Press 1");
-				int choice = bui.getIntInput();
-				if(choice == 1 ) {
-				numberOfRecordsToSee=10;
-				System.out.println("Press 1 for next records ");
-				System.out.println("Press 2 for previous records");
-				seeNext = bui.getStringInput();
+				if(lastWindowSize > 0) {
+					while(lastWindowSize > 0) { 
+						if(!iter.hasPrevious())
+							break;
+						iter.previous();
+						lastWindowSize--;
+						size++;
+					}
+					//System.out.println(size+"-2-"+iter.hasNext());
 				}
-				else {System.out.println("Invalid Choice!");
-				return;
+				while((numberOfRecordsToSee - currentWindow.size())>0 && iter.hasPrevious()) {
+					List <Book> books = iter.previous();
+					int index = Math.min(books.size(),numberOfRecordsToSee-currentWindow.size());
+					currentWindow .addAll(books.subList(0, index));
+					size++;
 				}
+				Collections.reverse(currentWindow);	
+				//System.out.println(size+" = size -2->"+"cWs - "+currentWindow.size());
 			}
-			lastWindowSize = currentWindow.size();
-			System.out.println("windiwse"+lastWindowSize);
+			//System.out.println(size+" = size -->"+"after cWs - "+currentWindow.size());
+			int choice = bui.pagination(currentWindow);
+			//System.out.println("choice - "+choice);
+			if(choice == 1) {
+				//System.out.println("Inside choice 1");
+				if(moveNext == 0) {//System.out.println("Inside choice 1");
+					lastWindowSize = currentWindow.size();moveNext=1;movePrevious=0;}
+			}
+			else if (choice == 2) {
+				//System.out.println("Inside choice 2");
+				if(movePrevious == 0) {lastWindowSize = currentWindow.size();moveNext=0;movePrevious=1;}
+			}
+			else if(choice != 1 || choice!=2) {return;}
 			currentWindow.clear();
-		 }
-		    
-		    
-		    
-		
+		    }
 	}
-	
 	private List<Book> updateList(List<Book>allBooks,Book book){
 		List<Book> serachByMatchedBooks = new ArrayList<Book>(allBooks);
 		serachByMatchedBooks.add(book);
@@ -214,6 +207,9 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 				}
 			}
 		}
-		//System.out.println("- treeMap size"+bookTreeMap.size());
 	}
+	public TreeMap<String, List<Book>> getTreeMap(){
+		return bookTreeMap;	
+	}
+	
 }

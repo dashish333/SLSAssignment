@@ -37,7 +37,7 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		}
 	}
 	public void searchProduct(Category category,String itemName) {
-		System.out.println("Searching....."+itemName);
+		System.out.println("Searching..... \""+itemName +"\"");
 		TimeTrackingUtilImpl timeTracker = new TimeTrackingUtilImpl();
 		BasicUserInterface bui = new BasicUserInterface();
 		double start = timeTracker.currentTime();

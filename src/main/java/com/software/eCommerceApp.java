@@ -13,15 +13,16 @@ import com.software.eCommerce.services.YourCart;
 import com.software.eCommerce.util.Cart;
 import com.software.eCommerce.util.Category;
 import com.software.eCommerce.util.OrderBy;
+import com.software.eCommerce.util.RandomDataGenerator;
 import com.software.eCommerce.util.RepositoryMaintenance;
 import com.software.eCommerce.util.SearchBookOn;
 import com.software.eCommerce.util.BindingType;
 
 /**
+ * 
  * Hello world!
  *
  */
-
 
 public class eCommerceApp 
 {
@@ -66,9 +67,6 @@ public class eCommerceApp
         		yourCart.addItemToCart(selectedBook, qty);
         		
         case 4: yourCart.viewCart();
-        		System.out.println("Want to Modify Cart? Press 1 if yes");
-        		int choice = bui.getIntInput();
-        		if(choice == 1) {yourCart.modifyCart();}
         		break;
         default: System.out.println("Invalid choice. Exiting!");
         		infiniteLoop = false;

@@ -40,7 +40,10 @@ public class YourCart implements Cart {
 	public void viewCart() {
 		userInterface.displayWelcomeInformation();
 		userInterface.showCart(getCart());
-		
+		if(cartContent.size()==0) {return;}
+		System.out.println("Want to Modify Cart? Press 1 if yes");
+		int choice = userInterface.getIntInput();
+		if(choice == 1) {modifyCart();}
 	}
 	
 	private LinkedHashMap<Book,Integer> getCart(){
@@ -52,22 +55,23 @@ public class YourCart implements Cart {
 		System.out.println("To Change Quantity of Item in Cart. Press 1");
 		System.out.println("To Remove Item from Cart. Press 2");
 		System.out.println("To Remove All Items From Cart. Press 3");
-		List<Book> books = (List<Book>) cartContent.keySet();
+		List<Book> books = new ArrayList<Book>();
+		books.addAll(cartContent.keySet());
 		int choice = userInterface.getIntInput();
 		if(choice==3) {cartContent.clear();viewCart();}
 		if (choice == 2) 
 		{
-			System.out.println("Enter itemNumber");
+			System.out.printf("Enter itemNumber\n");
 			int itemNumber = userInterface.getIntInput();
-			cartContent.remove(books.get(itemNumber));
+			cartContent.remove(books.get(itemNumber-1));
 			viewCart();
 		}
 		if(choice == 1) {
-			System.out.println("Enter itemNumber");
+			System.out.printf("Enter itemNumber\n");
 			int itemNumber = userInterface.getIntInput();
 			System.out.println("Enter the new Quantity");
 			int qty = userInterface.getIntInput();
-			cartContent.replace(books.get(itemNumber),qty);
+			cartContent.replace(books.get(itemNumber-1),qty);
 			viewCart();
 		}
 		
