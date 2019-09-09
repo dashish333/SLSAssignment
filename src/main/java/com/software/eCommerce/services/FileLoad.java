@@ -11,13 +11,13 @@ import com.software.eCommerce.services.FileReaderImpl;
 import com.software.eCommerce.util.Product;
 
 public class FileLoad extends FileReaderImpl {
-	private static final String BOOK_FILE_PATH = "/Users/ashishdwivedi/eclipse-workspace/SLSAssignment/SLSAssignment/book1.txt"; 
-	private static final String Strand_Book_File_Path = "/home/ashish/git_repo/SLSAssignment/book1.txt";
+	private static final String BOOK_FILE_PATH = "book1.txt"; 
+	private static final String Strand_Book_File_Path = "book1.txt";
 	
 	public List<String[]> loadFile() {
 		String rowRecord;
 		List<String[]> tokens=new ArrayList<String[]>();
-		BufferedReader reader = fileReader(Strand_Book_File_Path);
+		BufferedReader reader = fileReader(BOOK_FILE_PATH);
 		try {
     		while ((rowRecord = reader.readLine()) != null)   
     		{

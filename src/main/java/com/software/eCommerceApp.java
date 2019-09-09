@@ -13,7 +13,6 @@ import com.software.eCommerce.services.YourCart;
 import com.software.eCommerce.util.Cart;
 import com.software.eCommerce.util.Category;
 import com.software.eCommerce.util.OrderBy;
-import com.software.eCommerce.util.RandomDataGenerator;
 import com.software.eCommerce.util.RepositoryMaintenance;
 import com.software.eCommerce.util.SearchBookOn;
 import com.software.eCommerce.util.BindingType;
@@ -29,9 +28,7 @@ public class eCommerceApp
 	//private static RandomDataGenerator randomDataGenerator = new RandomDataGenerator();
 	private static final RepositoryMaintenance repository = new RepositoryMaintenanceImpl();
 	private static final Cart yourCart = new YourCart();
-	private static final  TimeTrackingUtilImpl timeTracker = new TimeTrackingUtilImpl();
-	private static final RandomOptimisedUtilImpl optimisedSearch = new RandomOptimisedUtilImpl();
-    public static void main( String[] args ) throws IOException
+    public static void main( String[] args) throws IOException, InterruptedException
     {
     	boolean infiniteLoop = true;
     	//randomDataGenerator.createCsvFileWithRandomValues();
@@ -46,42 +43,37 @@ public class eCommerceApp
         case 1: 
         		System.out.println("Searching for Book - ");
         		String itemName = bui.getStringInput();
-        		long begin = timeTracker.currentTime();
         		repository.searchProduct(Category.BOOK, itemName);
-        		long end = timeTracker.currentTime();
-        		System.out.println("\n Time in Search Taken = "+(end - begin));
         		System.out.println("\n\nFaster Search");
-        		begin = timeTracker.currentTime();
         		sortByKey = optimisedSearch.searchForItem(repository.getAllProducts());
-        		end = timeTracker.currentTime();
-        		System.out.println("Result Returned in (milli sec.) = "+(end - begin));
         		break;
         		
-        case 2: System.out.println("Listing All Books");
-        		repository.printAllProducts();
-        		System.out.println("\n\nSorted Listing");
-        		begin = timeTracker.currentTime();
-        		
-        		// insert a UI: asking for user sorting criteria 
+        case 2: //System.out.println("Listing All Books");
+        		//repository.printAllProducts();
+        		System.out.println("\n\n Optimised and Sorted Listing");
         		sortByKey = bui.optimiseSortSearch();
         		OrderBy orderBy =bui.sortedList(sortByKey);
         		SearchBookOn searchBookOn = bui.getSearchBookOn(sortByKey);
         		optimisedSearch.ListAllProducts(searchBookOn,orderBy,repository.getAllProducts());
-        		end = timeTracker.currentTime();
-        		System.out.println("Result Returned in (milli sec.) = "+(end - begin));
         		break;
-        		
+ 
         case 3: System.out.println("Enter book title to buy: "); 
         		String buyItemTitled = bui.getStringInput();
         		List<Book> books = repository.getProduct(Category.BOOK, buyItemTitled); 
-        		yourCart.addItemToCart(books);
+        		Book selectedBook = bui.showMultipleChoices(books);
+        		System.out.println("Enter Quantity to buy--");
+        		int qty = bui.getIntInput();
+        		yourCart.addItemToCart(selectedBook, qty);
         		
         case 4: yourCart.viewCart();
+        		System.out.println("Want to Modify Cart? Press 1 if yes");
+        		int choice = bui.getIntInput();
+        		if(choice == 1) {yourCart.modifyCart();}
         		break;
         default: System.out.println("Invalid choice. Exiting!");
         		infiniteLoop = false;
         }
-    }
+     }
     }
     private static void addItemForCategory() {
     	String rowRecord;

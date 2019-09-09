@@ -13,8 +13,9 @@ import com.software.eCommerce.datamodel.Book;
  */
 public interface Cart {
 	
-	void addItemToCart(List<Book> books);
+	void addItemToCart(Book book, int qty);
 	void viewCart();
+	void modifyCart();
 	
 	
 

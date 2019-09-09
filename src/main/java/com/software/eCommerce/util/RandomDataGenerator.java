@@ -49,7 +49,7 @@ public class RandomDataGenerator {
 
 	        long startTime = System.currentTimeMillis();
 
-	        for (int j = 0; j < 100000; j++) {
+	        for (int j = 0; j < 1000000; j++) {
 
 	            // For assigning random Strings to first five fields (Title, author, ISBN, Publisher, Language) of Book
 	            StringBuilder stringBuilder = new StringBuilder("");

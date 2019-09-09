@@ -38,11 +38,14 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 	}
 	public void searchProduct(Category category,String itemName) {
 		System.out.println("Searching....."+itemName);
+		TimeTrackingUtilImpl timeTracker = new TimeTrackingUtilImpl();
+		BasicUserInterface bui = new BasicUserInterface();
+		double start = timeTracker.currentTime();
 		if(allBooks.containsKey(category))
 		{
 			int matches = 0;
 			List<Book> items = allBooks.get(category);
-			BasicUserInterface bui = new BasicUserInterface();
+			
 			for (Book item : items) {
 				if((item.getTitle()).equals(itemName))
 				{
@@ -52,12 +55,14 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 				}
 			}
 			System.out.printf("Total Items Matching Your Search = {%d}",matches);
+			
 		}
 		else
 		{
 			System.out.println("No match found. Try Again!");
 		}
-	
+		double end = timeTracker.currentTime();
+		bui.printSearchTime(end-start);
 	}
 
 	public Map<Category, List<Book> > getAllProducts() {
@@ -67,7 +72,9 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 		List<Book>itemsInCategory = allBooks.get(Category.BOOK);
 		BasicUserInterface bui = new BasicUserInterface();
 		System.out.println("Displaying All Items.....");
-		bui.showFewRecords(itemsInCategory,Category.BOOK.name());
+		System.out.println(itemsInCategory.size());
+		return;
+		//bui.showFewRecords(itemsInCategory);
 		
 	}
 	public List<Book> getProduct(Category category, String itemName) {

@@ -1,6 +1,8 @@
 package com.software.eCommerce.UI;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 import com.software.eCommerce.datamodel.Book;
@@ -31,12 +33,10 @@ public class BasicUserInterface implements UserInterface {
 
 	public void displayWelcomeInformation() {
 		System.out.println("Welcome: This is your Cart \n");
-		System.out.println("Type Of Product \t|\t Item \t|\t ProductDetail  \t| \t price \t |\t year \n");
 		
 	}
 	public void printItem(Category category, String itemName,String additionalDetail ,int price,int year) {
-		System.out.printf("ProductCategory-{%s} | ItemName-{%s} | Authored by-{%s} | price($) - {%d} | year - {%d}\n",
-				category.name(),itemName,additionalDetail,price,year);
+		System.out.printf("%s \t\t %s \t\t %s \t\t %s \t\t %s \n",category.name() ,itemName, additionalDetail, price, year);
 	}
 	
 	public int selectItems() {
@@ -79,30 +79,58 @@ public class BasicUserInterface implements UserInterface {
 		return SearchBookOn.author;
 	}
 
-	public boolean showFewRecords(List<Book> keyBooksMapping,String key) {
-		//System.out.printf("Showing %d Records\n",keyBooksMapping.size());
-	
+	public void showFewRecords(List<Book> keyBooksMapping) {
+		//System.out.println("Product Category \t\t %s \t\t %s \t\t %s \t\t %s \n");
 		if(keyBooksMapping.size() > 10)
 		{	int numberOfRecordsToShow = 10;
+		System.out.println("Showing top 10 matched items");
 			for (Book book: keyBooksMapping) 
 			{	
 				printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
 				numberOfRecordsToShow--;
-				if(numberOfRecordsToShow == 0) {
-					System.out.printf("\n ------Would like to print further records for {%s}? Press 1-----",key);
-					int choice = getIntInput();
-					if (choice == 1) {numberOfRecordsToShow = 10;}
-					else {return false;}
-				}
+				
 			}
-		
 		}
-		
 		for(Book book : keyBooksMapping) 
         {
         	printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
         }
-		return true;
 		
+		
+	}
+		
+	public void printSearchTime(double searchTime) {
+		System.out.printf("All matching Results Returned in %.4f",searchTime);
+	}
+
+	public void showCart(HashMap<Book, Integer> yourCart) {
+		if(yourCart.isEmpty()) {System.out.println("Cart Empty....");return;}
+		int itemNumber = 1;
+		for (Map.Entry<Book, Integer> entry : yourCart.entrySet()) {
+			System.out.println("ItemNumber - "+itemNumber);
+			printCart(entry.getKey(), entry.getValue());
+			itemNumber++;
+		}	
+	}
+	private void printCart(Book book, int qty) {
+		System.out.println(book.getProductCategory()+"-- in Cart");
+		System.out.printf("Title - %s",book.getTitle());
+		System.out.printf("Author - %s",book.getAuthor());
+		System.out.printf("Publisher - %s",book.getPublisher());
+		System.out.printf("Price - %s",book.getPrice());
+	}
+
+	public Book showMultipleChoices(List<Book> books) {
+		int choice  = 0;
+		if(books.size() > 1)
+		{
+			System.out.println("Multiple Choice Matching your search... select the one you want to buy");
+			for (Book book : books) 
+			{
+				System.out.println((choice+1)+"."+book.getTitle()+" authored by -"+book.getAuthor()+ 
+						" price -"+book.getPrice()+" isbn- "+book.getIsbn());
+			}
+		}
+		return books.get(choice);
 	}
 }
