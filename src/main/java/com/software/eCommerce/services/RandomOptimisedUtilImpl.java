@@ -38,10 +38,10 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 			if(bookTreeMap == null || bookTreeMap.size()==0 ) {
 			bookTreeMap = setBookTreeMap(OrderBy.ASC);
 			}
-			long start = timeTracker.currentTime();
+			double start = timeTracker.currentTime();
 			createBookTreeMap(searchBy, allProducts);
-			long end = timeTracker.currentTime();
-			System.out.printf("\nTime To Optimum Data Structure -%.3f\n",end-start);
+			double end = timeTracker.currentTime();
+			System.out.printf("\nTime To Optimum Data Structure -%.3f\n",(end-start));
 		System.out.println("Searching..... \""+searchString+"\"");
 		 start = timeTracker.currentTime();
 		List<Book> books =    new ArrayList<Book>(bookTreeMap.get(searchString));
@@ -80,7 +80,7 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	public void ListAllProducts(SearchBookOn searchBy,OrderBy orderBy ,Map<Category, List<Book> > allProducts) throws InterruptedException {	
 		bookTreeMap = setBookTreeMap(orderBy);
 		createBookTreeMap(searchBy, allProducts);
-		//System.out.println("book tree size"+bookTreeMap.size());
+		System.out.println("book tree size"+bookTreeMap.size());
 		int numberOfRecordsToSee = 10;
 		int moveNext = 1;
 		int movePrevious = 0;
@@ -90,61 +90,68 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 
 		int lastWindowSize = 0; // set by previous or next
 		for (ListIterator<List<Book>>iter = values.listIterator();; ) {
-			//System.out.println("Loop Begin--\n");
+			System.out.println("CurrentWindowSize"+currentWindow.size());
 			if(moveNext == 1 && movePrevious == 0)
 			{
-				//System.out.println("inside 10 "+lastWindowSize);
-				if(lastWindowSize > 0) {
-					while(lastWindowSize > 0) { 
+				
+				System.out.println("earlier size = "+size+" inside forward , windowSize = "+lastWindowSize);	
+				while(lastWindowSize > 0) { 
 						if(!iter.hasNext())
 							break;
 						iter.next();
 						lastWindowSize--;
 						size--;
 					}
-				}
-				//System.out.println(size+"-1-"+iter.hasNext());
-				List<Book> tbooks = iter.next();
-				while((numberOfRecordsToSee - currentWindow.size())>0 && iter.hasNext()) {
+				System.out.println(size+"-1-"+iter.hasNext());
+				//(numberOfRecordsToSee - currentWindow.size())>0 &&
+				while(iter.hasNext()) {
 					List <Book> books = iter.next();
 					int index = Math.min(books.size(),numberOfRecordsToSee-currentWindow.size());
 					currentWindow .addAll(books.subList(0, index));
 					size--;
+					lastWindowSize++;
+					if(currentWindow.size()==10) {break;}
+					
 				}
-				//System.out.println(size+" = size -1->"+"cWs - "+currentWindow.size());
+				System.out.println(size+" = size-1->"+"cWs - "+currentWindow.size());
 			}
 			else if (moveNext == 0 && movePrevious == 1)
 			{
-				if(lastWindowSize > 0) {
-					while(lastWindowSize > 0) { 
+				System.out.println("earlier size = "+size+" inside backward, window size =  "+lastWindowSize);
+					while(lastWindowSize >= 0) { 
 						if(!iter.hasPrevious())
 							break;
 						iter.previous();
 						lastWindowSize--;
 						size++;
 					}
-					//System.out.println(size+"-2-"+iter.hasNext());
-				}
-				while((numberOfRecordsToSee - currentWindow.size())>0 && iter.hasPrevious()) {
+					
+					System.out.println(size+"-2-"+iter.hasPrevious());
+				//(numberOfRecordsToSee - currentWindow.size())>0 &&
+				while( iter.hasPrevious()) {
 					List <Book> books = iter.previous();
 					int index = Math.min(books.size(),numberOfRecordsToSee-currentWindow.size());
 					currentWindow .addAll(books.subList(0, index));
 					size++;
+					lastWindowSize++;
+					if(currentWindow.size()==10) {break;}
 				}
 				Collections.reverse(currentWindow);	
-				//System.out.println(size+" = size -2->"+"cWs - "+currentWindow.size());
+				System.out.println(size+" = size -2->"+"cWs - "+currentWindow.size());
 			}
-			//System.out.println(size+" = size -->"+"after cWs - "+currentWindow.size());
+			System.out.println(size+" = size -->"+"after cWs - "+currentWindow.size());
 			int choice = bui.pagination(currentWindow);
-			//System.out.println("choice - "+choice);
+			System.out.println("choice - "+choice);
 			if(choice == 1) {
-				//System.out.println("Inside choice 1");
-				if(moveNext == 0) {//System.out.println("Inside choice 1");
-					lastWindowSize = currentWindow.size();moveNext=1;movePrevious=0;}
+				System.out.println("Inside choice 1");
+				if(moveNext == 0) {System.out.println("Inside choice 1");
+					moveNext=1; movePrevious=0;}
+				else {lastWindowSize=0;}
 			}
 			else if (choice == 2) {
-				//System.out.println("Inside choice 2");
-				if(movePrevious == 0) {lastWindowSize = currentWindow.size();moveNext=0;movePrevious=1;}
+				System.out.println("Inside choice 2");
+				if(movePrevious == 0) {moveNext=0;movePrevious=1;}
+				else {lastWindowSize=0;}
 			}
 			else if(choice != 1 || choice!=2) {return;}
 			currentWindow.clear();
