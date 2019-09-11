@@ -21,7 +21,7 @@ public class BasicUserInterface implements UserInterface {
     System.out.println("2: List all the books available");
     System.out.println("3: Buy a Book");
     System.out.println("4. View Cart ");
-
+    System.out.println("TO Exit: Enter anything except above choice");
 	}
 
 	public int getIntInput() {
@@ -111,7 +111,7 @@ public class BasicUserInterface implements UserInterface {
 	        	printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
 	        }
 		}
-		else {System.out.println("Records Found");}
+		else {System.out.println("No Records Found");}
 		System.out.println("See Next Records? Press 1.");
 		System.out.println("See Previous Records? Press 2.");
 		int choice = getIntInput();

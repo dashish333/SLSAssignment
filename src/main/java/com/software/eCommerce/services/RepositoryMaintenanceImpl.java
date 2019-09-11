@@ -91,6 +91,7 @@ public class RepositoryMaintenanceImpl implements RepositoryMaintenance {
 			
 		if (matchedBook.size()==0) {
 			System.out.println("Can't find the product you looking for");
+			return null;
 		}
 		return matchedBook;
 	}

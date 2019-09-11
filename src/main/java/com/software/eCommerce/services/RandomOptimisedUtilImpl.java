@@ -34,14 +34,14 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	private TimeTrackingUtilImpl timeTracker = new TimeTrackingUtilImpl();	
 	
 	public void speedSearch(String searchString, SearchBookOn searchBy,
-			Map<Category, List<Book> > allProducts) {
-			if(bookTreeMap == null || bookTreeMap.size()==0 ) {
-			bookTreeMap = setBookTreeMap(OrderBy.ASC);
-			}
-			double start = timeTracker.currentTime();
-			createBookTreeMap(searchBy, allProducts);
-			double end = timeTracker.currentTime();
-			System.out.printf("\nTime To Optimum Data Structure : %.3f\n",(end-start));
+		Map<Category, List<Book> > allProducts) {
+		if(bookTreeMap == null || bookTreeMap.size()==0 ) {
+		bookTreeMap = setBookTreeMap(OrderBy.ASC);
+		}
+		double start = timeTracker.currentTime();
+		createBookTreeMap(searchBy, allProducts);
+		double end = timeTracker.currentTime();
+		System.out.printf("\nTime To Optimum Data Structure : %.3f\n",(end-start));
 		System.out.println("Searching..... \""+searchString+"\"");
 		 start = timeTracker.currentTime();
 		List<Book> books =    new ArrayList<Book>(bookTreeMap.get(searchString));
@@ -78,7 +78,9 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		return sortByKey;
 	}
 	public void ListAllProducts(SearchBookOn searchBy,OrderBy orderBy ,Map<Category, List<Book> > allProducts) throws InterruptedException {	
+		System.out.println("Listing All Product");
 		bookTreeMap = setBookTreeMap(orderBy);
+		
 		createBookTreeMap(searchBy, allProducts);
 		//System.out.println("book tree size"+bookTreeMap.size());
 		int numberOfRecordsToSee = 10;
@@ -118,7 +120,7 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 			else if (moveNext == 0 && movePrevious == 1)
 			{
 				//System.out.println("earlier size = "+size+" inside backward, window size =  "+lastWindowSize);
-					while(lastWindowSize >= 0) { 
+					while(lastWindowSize > 0) { 
 						if(!iter.hasPrevious())
 							break;
 						iter.previous();
@@ -131,6 +133,7 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 				while( iter.hasPrevious()) {
 					List <Book> books = iter.previous();
 					int index = Math.min(books.size(),numberOfRecordsToSee-currentWindow.size());
+					//List<Book> toBeInsertedBook = Collections.reverse(books.subList(0, index));
 					currentWindow .addAll(books.subList(0, index));
 					size++;
 					lastWindowSize++;
@@ -143,13 +146,13 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 			int choice = bui.pagination(currentWindow);
 			//System.out.println("choice - "+choice);
 			if(choice == 1) {
-				System.out.println("Inside choice 1");
-				if(moveNext == 0) {System.out.println("Inside choice 1");
+				//System.out.println("chosen 1");
+				if(moveNext == 0) {//System.out.println("Inside choice 1");
 					moveNext=1; movePrevious=0;}
 				else {lastWindowSize=0;}
 			}
 			else if (choice == 2) {
-				System.out.println("Inside choice 2");
+				//System.out.println("chosen 2");
 				if(movePrevious == 0) {moveNext=0;movePrevious=1;}
 				else {lastWindowSize=0;}
 			}
@@ -158,9 +161,9 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		    }
 	}
 	private List<Book> updateList(List<Book>allBooks,Book book){
-		List<Book> serachByMatchedBooks = new ArrayList<Book>(allBooks);
-		serachByMatchedBooks.add(book);
-		return serachByMatchedBooks;
+		List<Book> searchByMatchedBooks = new ArrayList<Book>(allBooks);
+		searchByMatchedBooks.add(book);
+		return searchByMatchedBooks;
 		
 	}
 	

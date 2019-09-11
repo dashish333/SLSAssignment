@@ -53,6 +53,8 @@ public class eCommerceApp
         		//repository.printAllProducts();
         		System.out.println("\n\n Optimised and Sorted Listing");
         		sortByKey = bui.optimiseSortSearch();
+        		System.out.printf("%d",sortByKey);
+        		if(sortByKey!=1 && sortByKey!=2 &&sortByKey!=3) {System.out.println("Invalid Input!!");break;}
         		OrderBy orderBy =bui.sortedList(sortByKey);
         		SearchBookOn searchBookOn = bui.getSearchBookOn(sortByKey);
         		optimisedSearch.ListAllProducts(searchBookOn,orderBy,repository.getAllProducts());
@@ -61,15 +63,19 @@ public class eCommerceApp
         case 3: System.out.println("Enter book title to buy: "); 
         		String buyItemTitled = bui.getStringInput();
         		List<Book> books = repository.getProduct(Category.BOOK, buyItemTitled); 
-        		Book selectedBook = bui.showMultipleChoices(books);
-        		System.out.println("Enter Quantity to buy--");
-        		int qty = bui.getIntInput();
-        		yourCart.addItemToCart(selectedBook, qty);
+        		if(books != null) {}
+        		else{
+        			Book selectedBook = bui.showMultipleChoices(books);
+        			System.out.println("Enter Quantity to buy--");
+            		int qty = bui.getIntInput();
+            		yourCart.addItemToCart(selectedBook, qty);
+        		}
+        		
         		
         case 4: yourCart.viewCart();
         		break;
         default: System.out.println("Invalid choice. Exiting!");
-        		infiniteLoop = false;
+        			infiniteLoop = false;
         }
      }
     }
