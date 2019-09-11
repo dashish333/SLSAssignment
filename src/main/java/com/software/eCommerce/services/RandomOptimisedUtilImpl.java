@@ -31,7 +31,8 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	private static TreeMap<String, List<Book>> bookTreeMap = null;
 	private static String sortedBy = null;
 	private BasicUserInterface bui = new BasicUserInterface();
-	private TimeTrackingUtilImpl timeTracker = new TimeTrackingUtilImpl();	
+	private TimeTrackingUtilImpl timeTracker = new TimeTrackingUtilImpl();
+	
 	
 	public void speedSearch(String searchString, SearchBookOn searchBy,
 		Map<Category, List<Book> > allProducts) {
@@ -41,7 +42,8 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		double start = timeTracker.currentTime();
 		createBookTreeMap(searchBy, allProducts);
 		double end = timeTracker.currentTime();
-		System.out.printf("\nTime To Optimum Data Structure : %.3f\n",(end-start));
+		System.out.printf("\nTime To create optimum data structure : %.3f based on %s\n",
+				(end-start),searchBy.name());
 		System.out.println("Searching..... \""+searchString+"\"");
 		 start = timeTracker.currentTime();
 		List<Book> books =    new ArrayList<Book>(bookTreeMap.get(searchString));
@@ -80,19 +82,24 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 	public void ListAllProducts(SearchBookOn searchBy,OrderBy orderBy ,Map<Category, List<Book> > allProducts) throws InterruptedException {	
 		System.out.println("Listing All Product");
 		bookTreeMap = setBookTreeMap(orderBy);
-		
+		double start = timeTracker.currentTime();
 		createBookTreeMap(searchBy, allProducts);
-		//System.out.println("book tree size"+bookTreeMap.size());
+		double end = timeTracker.currentTime();
+		System.out.printf("Constructed bookTreeMap = %.2f(msec.) based on %s and sorted in %s order\n",
+				(end-start),searchBy.name(),orderBy.name());
 		int numberOfRecordsToSee = 10;
 		int moveNext = 1;
 		int movePrevious = 0;
-		List<Book> currentWindow = new ArrayList<Book>();
+		List<List<Book>> currentWindow = new ArrayList<List<Book>>();
+		List<Book>allBookInPage = new ArrayList<Book>();
 		List<List<Book> >values = new ArrayList<List<Book>>(bookTreeMap.values()) ;
-		int size = values.size();
-
+		int totalValues = values.size();
+		int totalRecordsInCurrentWindow=0;
+		
 		int lastWindowSize = 0; // set by previous or next
 		for (ListIterator<List<Book>>iter = values.listIterator();; ) {
 			//System.out.println("CurrentWindowSize"+currentWindow.size());
+			totalRecordsInCurrentWindow=0;
 			if(moveNext == 1 && movePrevious == 0)
 			{
 				
@@ -102,15 +109,16 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 							break;
 						iter.next();
 						lastWindowSize--;
-						size--;
+						totalValues--;
 					}
 				//System.out.println(size+"-1-"+iter.hasNext());
 				//(numberOfRecordsToSee - currentWindow.size())>0 &&
-				while(iter.hasNext()) {
+				while(iter.hasNext() && totalRecordsInCurrentWindow < numberOfRecordsToSee) {
 					List <Book> books = iter.next();
-					int index = Math.min(books.size(),numberOfRecordsToSee-currentWindow.size());
-					currentWindow .addAll(books.subList(0, index));
-					size--;
+					int index = Math.min(books.size(),numberOfRecordsToSee-totalRecordsInCurrentWindow);
+					totalRecordsInCurrentWindow +=index; 
+					currentWindow .add(books.subList(0, index));
+					totalValues--;
 					lastWindowSize++;
 					if(currentWindow.size()==10) {break;}
 					
@@ -125,25 +133,26 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 							break;
 						iter.previous();
 						lastWindowSize--;
-						size++;
+						totalValues++;
 					}
 					
 					//System.out.println(size+"-2-"+iter.hasPrevious());
 				//(numberOfRecordsToSee - currentWindow.size())>0 &&
-				while( iter.hasPrevious()) {
+				while( iter.hasPrevious() && totalRecordsInCurrentWindow < numberOfRecordsToSee) {
 					List <Book> books = iter.previous();
-					int index = Math.min(books.size(),numberOfRecordsToSee-currentWindow.size());
-					//List<Book> toBeInsertedBook = Collections.reverse(books.subList(0, index));
-					currentWindow .addAll(books.subList(0, index));
-					size++;
+					int index = Math.min(books.size(),numberOfRecordsToSee-totalRecordsInCurrentWindow);
+					totalRecordsInCurrentWindow +=index;
+					currentWindow .add(books.subList(0, index));
+					totalValues++;
 					lastWindowSize++;
 					if(currentWindow.size()==10) {break;}
 				}
-				Collections.reverse(currentWindow);	
+				//Collections.reverse(currentWindow);	
 				//System.out.println(size+" = size -2->"+"cWs - "+currentWindow.size());
 			}
 			//System.out.println(size+" = size -->"+"after cWs - "+currentWindow.size());
-			int choice = bui.pagination(currentWindow);
+			allBookInPage = getCurrentWindow(moveNext, movePrevious, currentWindow);
+			int choice = bui.pagination(allBookInPage);
 			//System.out.println("choice - "+choice);
 			if(choice == 1) {
 				//System.out.println("chosen 1");
@@ -158,8 +167,25 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 			}
 			else if(choice != 1 || choice!=2) {return;}
 			currentWindow.clear();
+			allBookInPage.clear();
 		    }
 	}
+	private List<Book> getCurrentWindow(int moveNext, int movePrevious, List<List<Book>> currentWindow) {
+		List<Book> result = new ArrayList<Book>();
+		if(movePrevious == 1) {
+		for (List<Book> list : currentWindow) {
+			 Collections.reverse(list);
+			 result.addAll(list);
+		}
+		Collections.reverse(result);
+		return result;
+		}
+		for (List<Book> list : currentWindow) {
+			 result.addAll(list);
+		}
+		return result;
+	}
+
 	private List<Book> updateList(List<Book>allBooks,Book book){
 		List<Book> searchByMatchedBooks = new ArrayList<Book>(allBooks);
 		searchByMatchedBooks.add(book);

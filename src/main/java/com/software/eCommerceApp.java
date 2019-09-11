@@ -53,7 +53,7 @@ public class eCommerceApp
         		//repository.printAllProducts();
         		System.out.println("\n\n Optimised and Sorted Listing");
         		sortByKey = bui.optimiseSortSearch();
-        		System.out.printf("%d",sortByKey);
+        		//System.out.printf("%d",sortByKey);
         		if(sortByKey!=1 && sortByKey!=2 &&sortByKey!=3) {System.out.println("Invalid Input!!");break;}
         		OrderBy orderBy =bui.sortedList(sortByKey);
         		SearchBookOn searchBookOn = bui.getSearchBookOn(sortByKey);
@@ -63,7 +63,7 @@ public class eCommerceApp
         case 3: System.out.println("Enter book title to buy: "); 
         		String buyItemTitled = bui.getStringInput();
         		List<Book> books = repository.getProduct(Category.BOOK, buyItemTitled); 
-        		if(books != null) {}
+        		if(books == null) {System.out.println("No Record Found");}
         		else{
         			Book selectedBook = bui.showMultipleChoices(books);
         			System.out.println("Enter Quantity to buy--");
