@@ -93,13 +93,16 @@ public class BasicUserInterface implements UserInterface {
 			{	
 				printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
 				numberOfRecordsToShow--;
+				if(numberOfRecordsToShow == 0) {break;}
 				
 			}
 		}
-		for(Book book : keyBooksMapping) 
-        {
-        	printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
-        }
+		else{ 
+			for(Book book : keyBooksMapping) 
+		        {
+		        	printItem(book.getProductCategory(), book.getTitle(), book.getAuthor(), book.getPrice(),book.getYear());
+		        }
+		}
 	}
 	
 	public int pagination(List<Book> keyBooksMapping) {

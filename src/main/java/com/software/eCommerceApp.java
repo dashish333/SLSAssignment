@@ -8,12 +8,10 @@ import com.software.eCommerce.datamodel.Book;
 import com.software.eCommerce.services.FileLoad;
 import com.software.eCommerce.services.RandomOptimisedUtilImpl;
 import com.software.eCommerce.services.RepositoryMaintenanceImpl;
-import com.software.eCommerce.services.TimeTrackingUtilImpl;
 import com.software.eCommerce.services.YourCart;
 import com.software.eCommerce.util.Cart;
 import com.software.eCommerce.util.Category;
 import com.software.eCommerce.util.OrderBy;
-import com.software.eCommerce.util.RandomDataGenerator;
 import com.software.eCommerce.util.RepositoryMaintenance;
 import com.software.eCommerce.util.SearchBookOn;
 import com.software.eCommerce.util.BindingType;
@@ -80,7 +78,6 @@ public class eCommerceApp
      }
     }
     private static void addItemForCategory() {
-    	String rowRecord;
     	FileLoad fileLoader = new FileLoad();
     	List<String[]> records = fileLoader.loadFile();
     	for (int i=0;i<records.size();i++)

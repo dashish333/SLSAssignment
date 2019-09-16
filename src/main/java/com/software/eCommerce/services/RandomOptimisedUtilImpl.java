@@ -39,15 +39,21 @@ public class RandomOptimisedUtilImpl implements RandomOptimisedUtil {
 		if(bookTreeMap == null || bookTreeMap.size()==0 ) {
 		bookTreeMap = setBookTreeMap(OrderBy.ASC);
 		}
+		List<Book> books;
 		double start = timeTracker.currentTime();
 		createBookTreeMap(searchBy, allProducts);
 		double end = timeTracker.currentTime();
-		System.out.printf("\nTime To create optimum data structure : %.3f based on %s\n",
+		System.out.printf("\nTime To create optimum data structure : %.3f(msec.) based on %s\n",
 				(end-start),searchBy.name());
 		System.out.println("Searching..... \""+searchString+"\"");
-		 start = timeTracker.currentTime();
-		List<Book> books =    new ArrayList<Book>(bookTreeMap.get(searchString));
-		 end = timeTracker.currentTime();
+		start = timeTracker.currentTime();
+		try{
+			books =    new ArrayList<Book>(bookTreeMap.get(searchString));
+			}
+		catch(NullPointerException ex){
+			books = new ArrayList<Book>();
+		}
+		end = timeTracker.currentTime();
 		bui.printSearchTime(end-start);
 		System.out.println("Following items matched your search");
 		if(books.size()>0) {
