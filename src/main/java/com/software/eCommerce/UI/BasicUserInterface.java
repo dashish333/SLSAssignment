@@ -21,7 +21,7 @@ public class BasicUserInterface implements UserInterface {
     System.out.println("2: List all the books available");
     System.out.println("3: Buy a Book");
     System.out.println("4. View Cart ");
-    System.out.println("TO Exit: Enter anything except above choice");
+    System.out.println("TO Exit: Enter any number except above choice");
 	}
 
 	public int getIntInput() {
@@ -36,12 +36,12 @@ public class BasicUserInterface implements UserInterface {
 		
 	}
 	public void printItem(Category category, String itemName,String additionalDetail ,int price,int year) {
-		System.out.format("%s %40s%30s%20d%20d", category.name() ,itemName, additionalDetail, price, year);
+		System.out.format("%-s%-40s%-30s%20d%20d", category.name() ,itemName, additionalDetail, price, year);
 		System.out.println();
 	}
 	public void printHeader() 
 	{
-		System.out.format("%s %40s%30s%20s%20s\n", "Product Category" ,"Title", "Author Name", "Price", "Year of Publishing");
+		System.out.format("%-s%-40s%-30s%20s%20s\n", "Product Category" ,"Title", "Author Name", "Price", "Year of Publishing");
 	}
 	
 	public int selectItems() {
@@ -155,5 +155,9 @@ public class BasicUserInterface implements UserInterface {
 			}
 		}
 		return books.get(choice);
+	}
+	
+	public void printGenericUIContent(String uiStatement) {
+		System.out.println(uiStatement);
 	}
 }
